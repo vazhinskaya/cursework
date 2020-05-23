@@ -1,0 +1,133 @@
+<link href="{$SERVER_ROOT}/style/sprav_style.css" rel="stylesheet" type="text/css">
+<form name="{$sprav}" method="get" action="sprav.php" id="sprav">
+	<input type="hidden" name="act" value="{$sprav}">
+	{if ($step == 'edit')}
+		<input type="hidden" name="step" value="do_edit">
+		<input type="hidden" name="id" value="{$object[0]}">
+	{else}
+		<input type="hidden" name="step" value="do_add">
+	{/if}
+	<div class="grid np">
+		<table width="100%" cellspacing="1" cellpadding="0" border="0">
+			<tr>
+				<td colspan="3" valign="middle" class="hed6" align="left" style="text-align:left;">
+					<h1 id="unline">Справочник: <font color="#AAA">{$sprav_name}</font></h1>
+				</td>
+			</tr>
+			{if ($errors)}
+				<tr>
+					<td colspan="3">
+						{include file="general_errors.html"}
+					</td>
+				</tr>
+			{/if}
+			<tr class="headings">
+				<td height="30px" colspan="3" align="center" class="hed6">
+					{if ($step == 'edit')}
+						Редактирование записи
+					{else}
+						Добавление новой записи
+					{/if}
+				</td>
+			</tr>
+
+			{if ($spravField[1])}
+				<tr class="all_main">
+					<td height="30px" width="150px" align="right">{$spravField[1]}:</td>
+					<td colspan="2" align="left">
+						{if ($spravType[1]=="checkbox")}
+							<input type="checkbox"  name="name" value="1" {if ($object[1]==1)}checked{/if}>
+						{else}
+							<input type="text"  name="name" value="{$object[1]}" size="{$spravType[1]}" maxlength="{$spravType[1]}">
+						{/if}
+					</td>
+				</tr>
+			{/if}
+
+			{if ($spravField[2])}
+				<tr class="all_main">
+					<td height="30px" width="150px" align="right">{$spravField[2]}:</td>
+					<td colspan="2" align="left">
+						{if ($sprav=="np" || $sprav=="region")}
+							<select name="id_np" >
+								{foreach from=$np_list item=item}
+									<option value="{$item.id}" {if ($item.id==$object.id_np)}selected{/if}>{$item.np}</option>
+								{/foreach}
+							</select>
+						{else}
+							{if ($spravType[2]=="checkbox")}
+								<input type="checkbox" name="field2" value="1" {if ($object[2]==1)}checked{/if}>
+							{else}
+								<input type="text" name="field2" value="{$object[2]}" size="{$spravType[2]}" maxlength="{$spravType[2]}">
+							{/if}
+						{/if}
+					</td>
+				</tr>
+			{/if}
+
+			{if ($spravField[3])}
+				<tr class="all_main">
+					<td height="30px" width="150px" align="right">{$spravField[3]}:</td>
+					<td colspan="2" align="left">
+						{if ($spravType[3]=="checkbox")}
+							<input type="checkbox" name="field3" value="1" {if ($object[3]==1)}checked{/if}>
+						{else}
+							<input type="text" name="field3" value="{$object[3]}" size="{$spravType[3]}" maxlength="{$spravType[3]}">
+						{/if}
+					</td>
+				</tr>
+			{/if}
+
+			{if ($spravField[4])}
+				<tr class="all_main">
+					<td height="30px" width="150px" align="right">{$spravField[4]}:</td>
+					<td colspan="2" align="left">
+						{if ($spravType[4]=="checkbox")}
+							<input type="checkbox" name="field4" value="1" {if ($object[4]==1)}checked{/if}>
+						{else}
+							<input type="text" name="field4" value="{$object[4]}" size="{$spravType[4]}" maxlength="{$spravType[4]}">
+						{/if}
+					</td>
+				</tr>
+			{/if}
+
+			{if ($spravField[5])}
+				<tr class="all_main">
+					<td height="30px" width="150px" align="right">{$spravField[5]}:</td>
+					<td colspan="2" align="left">
+						{if ($spravType[5]=="checkbox")}
+							<input type="checkbox" name="field5" value="1" {if ($object[5]==1)}checked{/if}>
+						{else}
+							<input type="text" name="field5" value="{$object[5]}" size="{$spravType[5]}" maxlength="{$spravType[5]}">
+						{/if}
+					</td>
+				</tr>
+			{/if}
+
+			{if ($spravField[6])}
+				<tr class="all_main">
+					<td height="30px" width="150px" align="right">{$spravField[6]}:</td>
+					<td colspan="2" align="left">
+						{if ($spravType[6]=="checkbox")}
+							<input type="checkbox" name="field6" value="1" {if ($object[6]==1)}checked{/if}>
+						{else}
+							<input type="text" name="field6" value="{$object[6]}" size="{$spravType[6]}" maxlength="{$spravType[6]}">
+						{/if}
+					</td>
+				</tr>
+			{/if}
+
+			<tr class="sprav_table_head">
+				<td height="30px" colspan="3" align="center" class="hed6">
+					{if ($step == 'edit')}
+						<input type="submit" name="do_edit" value="Сохранить изменения">
+					{else}
+						<input type="submit" name="do_add" value="Добавить">
+					{/if}
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act={$sprav}';" value="Назад без изменений">
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>

@@ -1,0 +1,785 @@
+<div class="PopBlock">
+  <div class="PopUp" id="PopStat" style="display:none;">
+    <h3><a href="#" OnClick="popclose('PopStat');return false;" title="Закрыть окошко">x</a></h3>
+    <form action="index.php" method="post" name="form_del">
+      <div id="prdel" name="prdel">&nbsp;</div>
+      <input type="hidden" name="act" id="act" value="delab" size="15" maxlength="250" />
+      <input type="hidden" name="id" id="id" value="" size="15" maxlength="250" />
+      <input type="hidden" name="ekn" id="ekn" value="" size="15" maxlength="250" />
+      <input type="hidden" name="enom" id="enom" value="" size="15" maxlength="250" />
+      <input type="text" name="reason" id="reason" value="" size="15" maxlength="250" tabindex="1" />
+      <div class="PopUpBtns"><b><a href="#" OnClick="document.form_del.submit();" title="Удалить" tabindex="2">Удалить</a></b></div>
+    </form>
+  </div>
+</div>
+<div class="PopBlock">
+  <div class="PopUp" id="PopStat2" style="display:none;">
+    <h3><a href="{$SERVER_ROOT}/nojava.html" OnClick="popclose2('PopStat2');return false;" title="Закрыть окошко">x</a></h3>
+    <form action="deleted.php" method="post" name="form_restore">
+      <div id="prdel" name="prdel">&nbsp;</div>
+      <input type="hidden" name="act" id="act" value="restoreab" size="15" maxlength="250" />
+      <input type="hidden" name="id" id="id" value="" size="15" maxlength="250" />
+      <input type="hidden" name="ekn" id="ekn" value="" size="15" maxlength="250" />
+      <input type="hidden" name="enom" id="enom" value="" size="15" maxlength="250" />
+      <input type="text" name="reason" id="reason" value="" size="15" maxlength="250" tabindex="1" />
+      <div class="PopUpBtns2"><b><a href="#" OnClick="submit();" title="Восстановить" tabindex="2">Восстановить</a></b></div>
+    </form>
+  </div>
+</div>
+{if ($main=="search")}
+<div class="Bo"></div>
+<div style="float:left">
+  <h1 id="unline">Список</h1>
+</div>
+<div style="float:right;padding-top:5px">
+  <input type="button" name="new_ab" id="submit" class="button_sm"  onclick="editab('{$item.kn}', '{$item.nom}', 'addab');return false" value="Новый абонент">
+</div>
+<div style="clear:both">
+  {if ($page_count>0)}
+  <table width="100%" cellspacing="1" cellpadding="0" border="0"  class="hed1">
+    <tr>
+      <td>Страницы:&nbsp;
+        {section name=pageslist start=1 loop=$page_count+1 step=1}
+        {if ($page_num==$smarty.section.pageslist.index)}
+        &nbsp;{$smarty.section.pageslist.index}
+        {else}
+        &nbsp;<a href="#" onclick="sendfilter({$smarty.section.pageslist.index}, {$order_num});">{$smarty.section.pageslist.index}</a>{/if}
+        {/section}
+      <td>
+    </tr>
+  </table>
+  {/if}
+  <form method="post" action="index.php" name="frm_del">
+    <div class="grid np">
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <col width="6%">
+        <col width="6%">
+        <col width="30%">
+        <col width="15%">
+        <col width="15%">
+        <col width="16%">
+        <col width="12%">
+        <thead>
+          <tr class="headings">
+            <th><a href="#" {if ($order_num=="0")}class="active"{/if} onclick="sendfilter(1, 0);">&darr;Книга</a></th>
+            <th><a href="#" {if ($order_num=="1")}class="active"{/if} onclick="sendfilter(1, 1);">&darr;Номер</a></th>
+            <th><a href="#" {if ($order_num=="2")}class="active"{/if} onclick="sendfilter(1, 2);">&darr;Адрес</a></th>
+            <th><a href="#" {if ($order_num=="6")}class="active"{/if} onclick="sendfilter(1, 6);">&darr;Фамилия</a></th>
+            <th>Имя</th>
+            <th>Отчество</th>
+            <th class="last">Ред/Удал
+              </td>
+          </tr>
+        </thead>
+        <tbody>
+        {foreach from=$object item=item name=z1}
+        {assign var="k" value = $smarty.foreach.z1.iteration%2}
+        <tr id="tr{$item.id}" {if ($k==0)}class="even"{/if} onclick="showedit('{$item.id}', '{$item.kn}', '{$item.nom}')" ondblclick="editab('{$item.kn}', '{$item.nom}', 'editab');return false">
+          <td>{$item.kn}</td>
+          <td>{$item.nom}</td>
+          <td>{$item.nas_punkt}, {$item.street}, {$item.dom1}{if ($item.domadd>" ")}/{$item.domadd}{/if}, {$item.kb}</td>
+          <td>{$item.fam}</td>
+          <td>{$item.im}</td>
+          <td>{$item.ot}</td>
+          <td align="center" class="last"><div id="ed{$item.id}" style="display:none">
+          	<a href="#" onclick="editab('{$item.kn}', '{$item.nom}', 'dublab');return false" title="Дублировать"><img src="{$SERVER_ROOT}/images/add1.gif" width="16" hspace="2" height="16" border="0"></a> &nbsp;&nbsp;&nbsp;
+          	<a href="#" onclick="editab('{$item.kn}', '{$item.nom}', 'editab');return false" title="Редактировать"><img src="{$SERVER_ROOT}/images/edit.png" width="16" hspace="2" height="16" border="0"></a> &nbsp;&nbsp;&nbsp;
+          	{if ($deleted)}
+	   	         <a title="Восстановить абонента" class="dost_krome_sprav" href="#" OnClick="popopen2('PopStat2', '{$item.id}', '{$item.kn} {$item.nom}');return false;"><img src="{$SERVER_ROOT}/images/reload.gif" width="16" hspace="2" height="16" border="0"></a></div>
+			{else}
+          		<a class="dost_krome_sprav" href="#" OnClick="popopen('PopStat', '{$item.id}', '{$item.kn} {$item.nom}');return false;" title="Удалить"><img src="{$SERVER_ROOT}/images/del.png" width="16" hspace="2" height="16" border="0"></a></div>
+          	{/if}
+          </td>
+        </tr>
+        {/foreach}
+        </tbody>
+      </table>
+    </div>
+    <input type="hidden" name="act" value="delab">
+    <input type="hidden" name="id" value="{$item.id}">
+  </form>
+  {if ($page_count>0)}
+  <table width="100%" cellspacing="1" cellpadding="0" border="0"  class="hed1">
+    <tr>
+      <td>Страницы:&nbsp;
+        {section name=pageslist start=1 loop=$page_count+1 step=1}
+        {if ($page_num==$smarty.section.pageslist.index)}
+        &nbsp;{$smarty.section.pageslist.index}
+        {else}
+        &nbsp;<a href="#" onclick="sendfilter({$smarty.section.pageslist.index}, {$order_num});">{$smarty.section.pageslist.index}</a>{/if}
+        {/section}
+      <td>
+    </tr>
+  </table>
+  {/if}
+  {/if}
+<!-------------------------------------------------------------------------------------------------------------------------------------------------->
+  {if (($main=="addab") or ($main=="editab") or ($main=="dublab"))}
+	<form method="post" name="frm_abonent" id="frm_abonent" action="index.php">
+	  <input type="hidden" name="rpage" value="">
+	  <input type="hidden" name="act" value="saveab">
+	  <input type="hidden" name="kn" value="{$object.kn}">
+	  <input type="hidden" name="nom" value="{$object.nom}">
+	  <input type="hidden" name="ab[sc_dubl]" value="{$object.sc_dubl}">
+	  <input type="hidden" name="uch" value="1">
+	  <input type="hidden" name="id" value="{$object.id}">
+	  <table width="100%">
+	    <tr>
+	      <td align="left" width="20%"><a href="#" onclick="sendfilter({if ($page_num)}{$page_num}{else}1{/if}, {if ($order_num)}{$order_num}{else}0{/if});"><em>&larr;</em>Вернуться к списку</a></td>
+	      <td align="left" width="100">{if ($kn_prev)}<a href="#" onclick="editab('{$kn_prev}', '{$nom_prev}', 'editab')"><em>&larr;</em>предыдущий</a>{else}
+	        <div class="sgrey"><em>&larr;</em>предыдущий</div>
+	        {/if}</td>
+	      <td width="100">{if ($kn_next)}<a href="#" onclick="editab('{$kn_next}', '{$nom_next}', 'editab')">следующий<em>&rarr;</em></a>{else}
+	        <div class="sgrey">следующий<em>&rarr;</em></div>
+	        {/if}</td>
+	        <td>&nbsp;</td>
+	      <td width="300" align="right">
+	          <span class="small">{if (!$deleted)}ред.{else}Удалил(а):{/if} {$object.fio} {$object.edittime}</span>
+	      </td>
+	      <td width="100" align="right">
+	          <a style="margin-left:5px" href="{$SERVER2019_ROOT}/index.php?act=search_simple&s_text={$object.kn}{$object.nom}">Архив2019</a>
+	      </td>
+	    </tr>
+	  </table>
+	  <table width="100%">
+	    <tr height="50">
+	      <td width="300"><h1 id="unline" {if ($object.archive==1)}style="color:#666666"{/if}>
+	      	{if ($object.nom!='')}
+	        	{$object.kn}-{$object.nom}
+	        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   		        <input type="button" class="button_archive" value="Архив 2019" onclick="window.open('{$SERVER2019_ROOT}/index.php?act=search_simple&s_text={$object.kn}{$object.nom}')">
+	        	<br>
+	        	{$object.fam} {$object.im} {$object.ot}
+	        {else}
+	        	{if ($main=="dublab")}
+	        		Дублирование абонента
+	        	{else}
+	        		Добавление абонента
+	        	{/if}
+	        {/if}</h1>
+	        {if ($kol_uch_fam>1)}
+	        	<a style="margin-left:5px" href="{$SERVER_ROOT}/index.php?act=search&fam={$object.fam}&im={$object.im}&ot={$object.ot}">Кол-во учетов по ФИО: {$kol_uch_fam}</a>
+	        {/if}
+	        {if ($kol_uch_adr>1)}
+	        	<a style="margin-left:5px" href="{$SERVER_ROOT}/index.php?act=search&np={$object.nasp_id}&street={$object.street_id}&dom={$object.dom}&domadd={$object.domadd}&kb={$object.kb}">Кол-во учетов по адресу: {$kol_uch_adr}</a>
+	        {/if}
+
+	        </td>
+	      <!-- Блок кнопочек -->
+	      <td align="right">
+	      	<div class="hed9">
+	          <input type="button" class="button_sm" value="Калькуляция" onclick="kalkul({$object.kn}, {$object.nom});return false">
+	          <input type="button" class="button_archive" value="История изменений" onclick="archive('main', '{$object.kn}', '{$object.nom}', '{$object.uch}');return false">
+	          <input type="button" class="button_sm" value="Печать карточки" onclick="print_ab('{$object.kn}', '{$object.nom}');return false">
+	          <input type="button" class="button_sm" value="Печать конверта" onclick="print_conv('{$object.kn}', '{$object.nom}');return false">
+	          {if ($print_spravka)}
+	            <input type="button" class="button_sm" value="Печать Справки" onclick="print_sprav('{$object.kn}', '{$object.nom}');return false">
+	          {/if}
+	        </div>
+	        <div class="hed9">
+	            <span style="font-weight:bold;color:#006600;">
+	            	{foreach from=$tipnasp_spisok_edit item=item}
+	            		{if ($item.id==$object.tip_np)}{$item.tip_np}{/if}
+	            	{/foreach}
+	            	{foreach from=$nasp_spisok_edit item=item}
+	            		{if ($item.id==$object.nasp_id)}{$item.np}, {/if}
+	            	{/foreach}
+	            	{foreach from=$street_spisok_edit item=item}
+	            		{if ($item.id==$object.street_id)}{$item.tip_street} {$item.street}, {/if}
+	            	{/foreach}
+	            	{foreach from=$dom_spisok_edit item=item}
+	            		{if ($item.id==$object.dom_id)}
+	            			{if (($item.domadd=="") or ($item.domadd==" "))} дом {$item.dom}
+	            			{else}{$item.dom}/{$item.domadd}{/if}
+	            		{/if}
+	            	{/foreach}
+
+	            	{if ($object.kb!="")}, кв.{$object.kb}{/if}
+	            </span>
+	        </div>
+	        <div class="hed9">
+	            <span>{$fast_semya}</span><span>&nbsp;&nbsp;&nbsp;Принадлежность счетчика: <b>{$prinadlezh}</b></span>
+                <br>
+                <span>{$fast_tarif1}</span><span>&nbsp;&nbsp;&nbsp;Ср.мес.потребл.за год:</span> {$sredn_year_potrebl1} кВтч &nbsp;&nbsp;&nbsp;<span style="color:#FF0000;font-weight:bold;font-size:14px">{$dolznik}</span>
+
+	        </div>
+            {if ($fast_tarif2)!=''}
+                <div class="hed9">
+                    <span>{$fast_tarif2}</span><span>&nbsp;&nbsp;&nbsp;Ср.мес.потребл.за год:</span> {$sredn_year_potrebl2} кВтч &nbsp;&nbsp;&nbsp;<span style="color:#FF0000;font-weight:bold;font-size:14px">{$dolznik2}</span>
+                </div>
+            {/if}
+			{if ($fast_tarif3)!=''}
+                <div class="hed9">
+                    <span>{$fast_tarif3}</span><span>&nbsp;&nbsp;&nbsp;Ср.мес.потребл.за год:</span> {$sredn_year_potrebl3} кВтч &nbsp;&nbsp;&nbsp;<span style="color:#FF0000;font-weight:bold;font-size:14px">{$dolznik3}</span>
+                </div>
+            {/if}
+	      </td>
+	      <td align="right" valign="top" width="120">
+	      {if (!$deleted)}
+	          <div class="hed9">
+	            <div class="dost_krome_sprav"><input type="button" class="button_sm"  value="Удалить аб." style="color:#CC0000" onclick="popopen('PopStat', '{$object.id}', '{$object.kn} {$object.nom}');return false"></div>
+	              {literal}
+	              <script>
+	                    function delab(kn, nom) {
+	                        if (confirm("Действительно удалить?")) {
+	                            window.location.href = '{/literal}index.php?act=delab&kn='+kn+'&nom='+nom+ ' {literal}';
+	                        }
+	                    }
+	              </script>
+	              {/literal}
+	          </div>
+	          <div class="hed9">
+	            <div class="dost_krome_sprav"><input type="button" class="button_sm"  value="Дублировать" style="color:#00AA00" onclick="editab('{$object.kn}', '{$object.nom}', 'dublab');return false"></div>
+	          </div>
+
+	      {/if}
+	      <div class="hed9" style="height: 30px;padding-top:5px;">
+	             <input size="5" type="checkbox" name="ab[archive]" class="check" value="1" {if ($object.archive==1)}checked{/if}  onclick="ArchiveCheck(this)">
+	             <span style="color:#555; font-size: 14px; font-weight: bold;">Архивный аб.</span>
+	      </div>
+
+	      </td>
+
+	    </tr>
+	  </table>
+	  {if ($main=="dublab")}
+	  	<div style="width:100%;line-height:30px;background:#ff5400;text-align:center;font-size:16px;color:#FFF">Внимание! Дублирование абонента!</div>
+	  	{literal}
+	  	<style>
+	  	.hed8 {background:#ff5400;color:#FFF}
+	  	</style>
+	  	{/literal}
+	  {/if}
+	  {literal}
+	  <script>
+			function kalkul(kn, nom)
+			{
+				var param = "width=740" + ",height=450" + ",left=100" + ",top=100";
+				newWin = window.open('{/literal}{$SERVER_ROOT}/print.php?act=kalkul1&kn={$object.kn}&nom={$object.nom}&uch={$object.uch}{literal}', "kalkul", param);
+			}
+
+			function print_ab(kn, nom)
+			{
+	            var param = "width=500" + ",height=400" + ",left=100" + ",top=100";
+			    newWin = window.open('{/literal}print.php?act=print_ab&kn='+kn+'&nom='+nom+ ' {literal}', "print_ab", param);
+			}
+
+			function print_conv(kn, nom)
+			{
+	            var param = "width=500" + ",height=480" + ",left=100" + ",top=100";
+			    newWin = window.open('{/literal}print.php?act=print_conv&kn='+kn+'&nom='+nom+ ' {literal}', "print_conv", param);
+			}
+
+	        function print_sprav(kn, nom)
+	        {
+	            var param = "width=500" + ",height=400" + ",left=100" + ",top=100";
+	            newWin = window.open('{/literal}print.php?act=print_sprav_step1&kn='+kn+'&nom='+nom+ ' {literal}', "print_sprav", param);
+	        }
+		</script>
+	  {/literal}
+	  <div>
+	    <ul class="tabs-horiz">
+	      <li><a href="#" onclick="set_informer(1);return false" class="active" id="tabfast_1" name="tabfast_1">Основное</a></li>
+	      {if ($acts)}<li><a href="#" onclick="set_informer(2);return false" id="tabfast_2" name="tabfast_1">Акты и услуги</a></li>{/if}
+	      {if ($object.kn!='')}
+	        {assign var="itemcount" value=3}
+	        {section name=ssc start=0 loop=$schet_spisok_count step=1}
+	            <li {if ($smarty.section.ssc.iteration>$schet_spisok_count)}style="display:none"{/if} id="li{$smarty.section.ssc.iteration}" ><a href="#" onclick="set_informer({$itemcount});return false" class="" id="tabfast_{$itemcount}" name="tabfast_{$itemcount}">Тариф{if ($kol_uch_show<$smarty.section.ssc.iteration)}(Архивный){/if} {$smarty.section.ssc.iteration}</a></li>
+	                  {assign var="itemcount" value=$itemcount+1}
+	        {/section}
+	        <!--
+	        {if (!$deleted)}
+	        	{if ($schet_spisok_count==1)}
+		            <a style="padding-left:50px" href="#" onclick="if (confirm('Добавить новый тариф к этому счетчику?') == true) {literal}{{/literal} document.getElementById('li{$schet_spisok_count+1}').style.display='block';this.style.display='none'; {literal}}{/literal}return false" id="tabfast_{$itemcount}" name="tabfast_{$itemcount}"> Добавить Тариф </a>
+	        	{/if}
+	        {/if}
+	        -->
+	      {/if}
+	    </ul>
+	  </div>
+	  <div style="clear:both"></div>
+	  <div id=tab1>
+	    <div id="box_grey">
+	      <div>
+	        <div style="overflow:hidden;padding:5px" width="100%" id="fast_1" name="fast_1">
+			          <table width="100%"  border="0" cellspacing="1" cellpadding="1">
+			            <tr>
+			              <td valign="top" width="66%" colspan=2><div class="bdr2">
+			                  <div class="hed8">Карточка абонента
+			                  </div>
+			                </div>
+			                  <table width="100%"  border="0" cellspacing="1" cellpadding="1">
+			                    <tr>
+			                      <td valign="top" width="50%">
+			                      <fieldset style="border:1px solid #c0d4db">
+			                      <legend style="color:#006600;font-weight:bold;background:#FFFFFF">Данные абонента</legend>
+
+			                      <table width="100%"  border="0" cellpadding="0" cellspacing="0"  class="pstable">
+			                          <tr>
+			                            <td width="100">Лицевой счет:</td>
+			                            <td><input type="text" name="ab[kn]" style="width:50px" maxlength="4" value="{$object.kn}">
+			                              &nbsp
+			                              <input type="text" name="ab[nom]"  style="width:40px" maxlength="3" value="{$object.nom}"></td>
+			                          </tr>
+			                          <tr>
+			                            <td>Фамилия:</td>
+			                            <td><input type="text" name="ab[fam]" class="inp_100" maxlength="128" value="{$object.fam}"></td>
+			                          </tr>
+			                          <tr>
+			                            <td>Имя:</td>
+			                            <td><input type="text" name="ab[im]" class="inp_100" maxlength="128" value="{$object.im}"></td>
+			                          </tr>
+			                          <tr>
+			                            <td>Отчество:</td>
+			                            <td><input type="text" name="ab[ot]" class="inp_100" maxlength="128" value="{$object.ot}"></td>
+			                          </tr>
+			                          <tr>
+			                            <td>Дата договора:</td>
+			                            <td><input type="text" name="ab[datadog]" id="abdatadog" size="11" maxlength="10" value="{$object.edatadog}" onkeyup="check_date(this);" onchange="check_date(this);">
+			                              <input style="margin-left:6px" type="button" value="Дата" onclick="displayCalendar(document.forms[4].abdatadog,'dd.mm.yyyy',this)"></td>
+			                          </tr>
+			                          <tr style="display:none">
+			                            <td>Дата окончания дог.:</td>
+			                            <td><!--<input type="text" name="ab[srokdog]" id="absrokdog" size="11" maxlength="10" value="{$object.esrokdog}">
+			                              <input style="margin-left:6px" type="button" value="Дата" onclick="displayCalendar(document.forms[4].absrokdog,'dd.mm.yyyy',this)"> --> </td>
+			                          </tr>
+
+			                          <tr>
+			                            <td>Телефон:</td>
+			                            <td><input type="text" name="ab[tel]" class="inp_100" maxlength="10" value="{$object.tel}"></td>
+			                          </tr>
+			                          <tr>
+			                            <td>Моб.телефон:</td>
+			                            <td style="padding:0px">
+			                            	<table width="100%" border="0" cellpadding="0" cellspacing="0">
+			                            		<tr>
+			                            			<td>
+			                            				<b>8-</b>
+			                            			</td>
+			                            			<td>
+						                            	<select name="mob_kod" id="mob_kod" style="width:50px">
+							                            	<option value="025"{if ($mob_kod=="025")} selected{/if}>025</option>
+						                            		<option value="029" {if (($mob_kod=="029") or ($mob_kod==""))} selected{/if}>029</option>
+						                            		<option value="033"{if ($mob_kod=="033")} selected{/if}>033</option>
+						                            		<option value="044"{if ($mob_kod=="044")} selected{/if}>044</option>
+						                            	</select>
+						                            </td>
+						                            <td>
+							                           	<input type="text" name="ab[mobtel]"  class="inp_100" maxlength="7" value="{$object.mobtel}" onkeyup="check_len(this, 7);" onchange="check_len(this, 7);">
+							                        </td>
+							               		</tr>
+							               	</table>
+			                            </td>
+			                          </tr>
+			                       </table>
+			                       <a class="dost_krome_sprav" href="#" onclick="document.getElementById('pasp').style.display='table-row';return false;">Паспортные данные</a>
+			                       <table width="100%"  border="0" cellpadding="0" cellspacing="0"  class="pstable" style="display:none" id="pasp" name="pasp">
+			                          <tr>
+			                            <td>Номер паспорта:</td>
+			                            <td><input type="text" name="ab[paspnum]" class="inp_100" maxlength="16" value="{$object.paspnum}"></td>
+			                          </tr>
+			                          <tr>
+			                            <td>Дата выдачи:</td>
+			                            <td><input type="text" name="ab[paspdata]" class="inp_100" maxlength="16" value="{$object.paspdata}" onkeyup="check_date(this);" onchange="check_date(this);"></td>
+			                          </tr>
+			                          <tr>
+			                            <td>Кем выдан:</td>
+			                            <td>
+			                            	<select name="ab[paspkem1]" class="inp_100">
+			                            		<option value=""></option>
+			                            		{foreach from=$rovd_spisok item=item}
+				                            	<option value="{$item.res_value}">{$item.res_value}</option>
+				                            	{/foreach}
+			                            	</select>
+			                            	<input type="text" name="ab[paspkem2]" class="inp_100" maxlength="128" value="{$object.paspkem}">
+			                            </td>
+			                          </tr>
+			                        </table>
+			                        </fieldset>
+
+								   <!-- Здесь ЕРИП -->
+                                    <fieldset style="border:1px solid #c0d4db">
+                                      <legend style="color:#006600;font-weight:bold;background:#FFFFFF">ЕРИП</legend>
+                                      <table width="100%" border="0" cellpadding="0" cellspacing="0"  class="pstable">
+                                        <tr>
+                                          <td>Идентификационный номер:</td>
+                                          <td><input type="text" name="ab[paspident]" class="inp_100" maxlength="14" value="{$object.paspident|rtrim}"></td>
+                                        </tr>
+                                        <tr>
+                                          <td>Код ЖКУ:</td>
+                                          <td><input type="text" name="ab[erip_num]" class="inp_100" value="{$object.erip_num}"></td>
+                                        </tr>
+                                      </table>
+                                    </fieldset>
+
+			                      </td>
+
+
+								<!-- Здесь адрес, КТП, пломбы -->
+			                      <td valign="top"  style="text-align: center;">
+			                        <fieldset style="border:1px solid #c0d4db">
+			                        <legend style="color:#006600;font-weight:bold;background:#FFFFFF">Адрес</legend>
+			                        <table width="100%"  border="0" cellpadding="0" cellspacing="0" class="pstable">
+			                          <tr>
+			                            <td>Тип нас.пункта:</td>
+			                            <td><select name="etip" id="etip" class="psi1" onchange="espis1()">
+											{foreach from=$tipnasp_spisok_edit item=item}<option value="{$item.id}"{if ($item.id==$object.tip_np)} selected{/if}>{$item.tip_np}</option>{/foreach}
+			                              </select></td>
+			                          </tr>
+			                          <tr>
+			                            <td width="17%">Нас. пункт:</td>
+			                            <td width="14%"><div id="enas_punkt_c" name="enas_punkt_c">
+			                                <select name="ab[np1][]" id="ab[np1][]" class="psi1" onchange="espis2()">
+												{foreach from=$nasp_spisok_edit item=item}<option value="{$item.id}"{if ($item.id==$object.nasp_id)} selected{/if}>{$item.np}</option>{/foreach}
+			                                </select>
+			                              </div></td>
+			                          </tr>
+			                          <tr>
+			                            <td>Улица:</td>
+			                            <td><div id="estreet_c" name="estreet_c">
+			                                <select name="ab[nu1][]" id="ab[nu1][]" class="psi1" onchange="espis3()">
+												{foreach from=$street_spisok_edit item=item}
+													{if ($item.street=="")}<option value="{$item.id}"{if ($item.id==$object.street_id)} selected{/if}>Без улицы</option>{else}
+														<option value="{$item.id}"{if ($item.id==$object.street_id)} selected{/if}>{$item.tip_street} {$item.street}</option>
+													{/if}
+												{/foreach}
+			                                </select>
+			                              </div></td>
+			                          </tr>
+			                          <tr>
+			                            <td>
+			                                <div style="float:left">Дом:</div>
+			                                <div style="float:right">
+			                                    <a class="dost_krome_sprav" title="Добавить новый дом" href="#" onclick="newdom()"><img src="{$SERVER_ROOT}/images/add.png"></a>
+			                                    <a class="dost_krome_sprav" title="Обновить список домов" href="#" onclick="espis3()"><img src="{$SERVER_ROOT}/images/cog.png"></a>
+			                                </div>
+			                                <div style="clear:both"></div>
+			                                  {literal}
+			                                  <script>
+			                                        function newdom()
+			                                        {
+			                                            var param = "width=550" + ",height=600" + ",left=100" + ",top=100";
+			                                            var id_np = document.getElementById('ab[np1][]').value;
+			                                            var id_ul = document.getElementById('ab[nu1][]').value;
+			                                            newWin = window.open('{/literal}{$SERVER_ROOT}/sprav.php?act=dom&step=add&id_np='+id_np+'&id_ul='+id_ul{literal}, "newDom", param);
+			                                        }
+			                                  </script>
+			                                  {/literal}
+			                            </td>
+			                            <td align="left">
+			                              <div id="edom_c" name="edom_c">
+			                                <select id="ab[id_dom][]" name="ab[id_dom][]" class="psi1" onchange="show_save();return false">
+												{foreach from=$dom_spisok_edit item=item}<option value="{$item.id}"
+													{if ($item.id==$object.dom_id)} selected{/if}>
+													{if (($item.domadd=="") or ($item.domadd==" "))}{$item.dom}{else}{$item.dom}/{$item.domadd}{/if}</option>
+												{/foreach}
+			                                </select>
+			                              </div></td>
+			                          </tr>
+			                          <tr>
+			                            <td>Квартира:</td>
+			                            <td><input type="text" name="ab[kb]"  style="width:50px;" maxlength="16" value="{$object.kb}"></td>
+			                          </tr>
+			                        </table>
+			                        </fieldset>
+			                          {literal}
+			                          <script>
+			                                function editdom()
+			                                {
+			                                    var param = "width=550" + ",height=600" + ",left=100" + ",top=100";
+			                                    var id = document.getElementById('ab[id_dom][]').value;
+			                                    //alert("123");
+			                                    newWin = window.open('{/literal}{$SERVER_ROOT}/sprav.php?act=dom&step=edit&id='+id{literal}, "myWindow", param);
+			                                }
+			                          </script>
+			                          {/literal}
+
+			                        <div id="after_dom_change" name="after_dom_change">
+			                        <fieldset style="border:1px solid #c0d4db">
+			                        <legend style="color:#006600;font-weight:bold;background:#FFFFFF">Данные дома</legend>
+			                        <table width="100%"  border="0" cellpadding="0" cellspacing="0" class="pstable">
+			                          <tr>
+			                            <td width="50%">
+			                            <div style="float:left">РЭС:</div>
+			                                <div style="float:right">
+			                                    <a class="dost_krome_sprav" title="Редактировать данные дома" onclick="editdom()" href="#"><img src="{$SERVER_ROOT}/images/edit.png"></a>
+			                                </div>
+			                            </td>
+			                            <td>
+			                                <input type="text" size="20" disabled value="{foreach from=$res_spisok item=item}{if ($item.id==$object.id_res)}{$item.res}{/if}{/foreach}">
+			                            </td>
+			                          </tr>
+			                          <tr>
+			                            <td>Регион:</td>
+			                            <td>
+			                                <input type="text" size="20" disabled value="{foreach from=$region_spisok_edit item=item}{if ($item.id==$object.id_region)}{$item.region}{/if}{/foreach}">
+			                            </td>
+			                          </tr>
+
+                                      <tr>
+                                        <td>ПС-10кВ:</td>
+                                        <td><input type="text" disabled value="{$ktp.tip_ps}-{$ktp.n_ps}" readonly></td>
+                                      </tr>
+                                      <tr>
+                                        <td>ВЛ(КЛ):</td>
+                                        <td><input type="text" disabled value="{$ktp.tip_lep}-{$ktp.n_lep}" readonly></td>
+                                      </tr>
+			                          <tr>
+			                            <td>Опора:</td>
+			                            <td><input type="text" disabled name="ab[opora]" value="{$object.opora}" ></td>
+			                          </tr>
+
+			                          <tr>
+			                            <td>Принадлежность:</td>
+			                            <td>
+			                                <input type="text" size="20" disabled value="{foreach from=$prinadl_spisok_edit item=item}{if ($item.id==$object.id_prinadl)}{$item.tipps}{/if}{/foreach}">
+			                            </td>
+			                          </tr>
+			                          <tr>
+			                            <td>Тип постройки:</td>
+			                            <td>
+			                                <input type="text" size="20" disabled value="{foreach from=$postr_spisok_edit item=item}{if ($item.id==$object.id_postr)}{$item.postr}{/if}{/foreach}">
+			                            </td>
+			                          </tr>
+			                        </table>
+			                        </fieldset>
+			                        </div>
+			                          <fieldset style="border:1px solid #c0d4db">
+			                          <legend style="color:#006600;font-weight:bold;background:#FFFFFF">Доп. условия</legend>
+			                          <table width="100%" border="0" cellpadding="0" cellspacing="0"  class="pstable">
+				                          <tr>
+				                            <td colspan="2">Тип постройки (доп.):</td>
+				                            <td>
+				                                <select name="ab[postr]" class="psi1">
+				                                <option value=""></option>
+				                                {foreach from=$postr_spisok_edit item=item}<option value="{$item.id}"{if ($item.id==$object.postr)} selected {/if}>{$item.postr}</option>{/foreach}
+				                              </select>
+				                            </td>
+				                          </tr>
+
+			                            <tr>
+			                              <td colspan="2">Разр.мощность (кВт):</td>
+			                              <td width="141"><input type="text" name="ab[power]" style="width:50px" maxlength="5" onkeyup="CheckFloat(this)" value="{$object.power}"></td>
+			                            </tr>
+			                          </table>
+			                        </fieldset>
+
+			                           <fieldset style="border:1px solid #c0d4db">
+			                          <legend style="color:#006600;font-weight:bold;background:#FFFFFF">Опломбировка</legend>
+			                          <table width="100%" border="0" cellpadding="0" cellspacing="0"  class="pstable">
+
+			                            <tr>
+			                              <td colspan="2">Пломба вв.устр1:</td>
+			                              <td><input type="text" name="ab[plmbvu1]" class="mtext_sh" value="{$object.plmbvu1}"></td>
+			                            </tr>
+			                            <tr>
+			                              <td colspan="2">Пломба вв.устр2:</td>
+			                              <td><input type="text" name="ab[plmbvu2]" class="mtext_sh" value="{$object.plmbvu2}"></td>
+			                            </tr>
+			                            <tr>
+			                              <td colspan="2">Пломба 0-й шины:</td>
+			                              <td><input type="text" name="ab[plmbs0]" class="mtext_sh" value="{$object.plmbs0}"></td>
+			                            </tr>
+			                          </table>
+			                        </fieldset>
+
+			                      </td>
+			                    </tr>
+			                    <tr>
+			                        <td colspan="2">
+
+			                        </td>
+			                    </tr>
+			                  </table>
+			                      {if (!$deleted)}
+			                          <input class="dost_krome_sprav" style="margin:5px;height:35px;color:#AA0000;width:99%" type="button" name="sbmit1" id="sbmit1" onClick="save_main(this)" class="button" {if ($main=="addab")}disabled{/if} value=" Сохранить карточку абонента">
+									  {literal}
+									  <script type="text/javascript">
+									                function save_main(n)
+									                {
+									                	if ((document.getElementsByName("ab[kn]")[0].value.length==4) && (document.getElementsByName("ab[nom]")[0].value.length==3)) {
+															n.disabled=true;
+															$('frm_abonent').submit();
+														} else { alert("Лицевой счет указан не верно!"); }
+
+														return false;
+													}
+									  </script>
+									  {/literal}
+
+			                      {/if}
+
+
+
+						<!-- Здесь служебные отметки -->
+			              <td valign="top"  width="34%">
+			                <div class="bdr2">
+			                  <div class="hed8">Отключения / Распломбировка / Информация</div>
+			                </div>
+			                {if (($main!="addab") and ($main!="dublab"))}
+			                	<IFRAME id="otkl" name="otkl" src="{$SERVER_ROOT}/otkl.php?act=view&kn={$object.kn}&nom={$object.nom}&uch={$smarty.foreach.ssc1.iteration}" frameborder=0 marginheight=0 marginwidth=0 width="100%" height="230"></IFRAME>
+			                {/if}
+			                <div class="bdr2">
+			                  <div class="hed8">Дополнительная информация</div>
+			                </div>
+
+			                <div style="margin-top:10px; background:#dbe5f1"> Комментарий:<br>
+			                    <textarea name="ab[comment]" style="width:100%;height:150px">{$object.comment}</textarea>
+			                </div>
+			                  <div style="margin-top:10px; background:#dbe5f1"> Причина изменения:<br>
+			                    <input type="text" name="reason" style="width:100%" title="при изменении номера абонента - причина добавится автоматически">
+			                  </div>
+
+			              </td>
+			          </tr>
+			        </table>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</form>
+
+
+{if ($object.kn!='')}
+  <!-- Счетчики  -->
+  {literal}
+  <script type="text/javascript">
+                function down_hide(n)
+                {
+                    _a=document.getElementById("up"+n);
+                    _a.style.display='block';
+                    _a=document.getElementById("down"+n);
+                    _a.style.display='none';
+                }
+                function down_show(n)
+                {
+                    _a=document.getElementById("down"+n);
+                    _a.style.display='block';
+                    _a=document.getElementById("up"+n);
+                    _a.style.display='none';
+                }
+
+                function autoIframe(frameId){
+                    try{
+                        frame = document.getElementById(frameId);
+                        innerDoc = (frame.contentDocument) ? frame.contentDocument : frame.contentWindow.document;
+                        objToResize = (frame.style) ? frame.style : frame;
+                        objToResize.height = innerDoc.body.scrollHeight;
+                    }
+                    catch(err){
+                        window.status = err.message;
+                    }
+                }
+            </script>
+  {/literal}
+
+  {if ($acts)}
+	  <div id="tab2" style="display:none">
+	    <div id="box_grey">
+	    	<br>
+          <div class="bdr2">
+            <div>
+              <div class="hed8">Акты и услуги</div>
+            </div>
+	        <div class="grid np">
+				<table width="100%" cellspacing="0" cellpadding="0" border="0"  class="table_cell_right">
+					<col width="10%">
+					<col width="10%">
+					<col width="10%">
+					<col width="10%">
+					<col width="10%">
+					<col width="10%">
+					<col width="10%">
+					<col width="10%">
+					<col width="10%">
+					<col width="10%">
+					<thead>
+					<tr class="headings">
+						<th>Дата платежа</th>
+						<th>Сумма платежа</th>
+						<th>Калькуляция</th>
+						<th>Показания</th>
+						<th>Пеня</th>
+						<th>Тип платежа</th>
+						<th>Зачтенный месяц</th>
+						<th>кВт.ч</th>
+						<th>Тип ввода</th>
+						<th>Таб. номер</th>
+					</tr>
+					</thead>
+					<tbody>
+						{foreach from=$acts item=item}
+							<tr class="all_main">
+								<td>{if ($item.datekv_shot >' ') }{$item.datekv_shot}{else}&nbsp;{/if}</td>
+								<td>{if ($item.sumkv >' ') }{$item.sumkv}{else}&nbsp;{/if}</td>
+								<td>{if ($item.meskv >' ') }{$item.meskv}{else}&nbsp;{/if}</td>
+								<td>{if ($item.pokkv >' ') }{$item.pokkv}{else}&nbsp;{/if}</td>
+								<td>{if ($item.penkv >' ') }{$item.penkv}{else}&nbsp;{/if}</td>
+								<td>{if ($item.typekv >' ') }{$item.typekv}{else}&nbsp;{/if}</td>
+								<td>{if ($item.imeskv_shot >' ') }{$item.imeskv_shot}{else}&nbsp;{/if}</td>
+								<td>{if ($item.kvtkv >' ') }{$item.kvtkv}{else}&nbsp;{/if}</td>
+								<td>{if ($item.oshkv >' ') }{$item.oshkv}{else}&nbsp;{/if}</td>
+								<td>{if ($item.tbn >' ') }{$item.tbn}{else}&nbsp;{/if}</td>
+							</tr>
+						{/foreach}
+					</tbody>
+				</table>
+				</div>
+			</div>
+	  	  </div>
+	  	  <br><br>
+	    </div>
+  {/if}
+
+  {assign var="it" value=3}
+  {section name=ssc1 start=0 loop=3 step=1}
+  <div id="tab{$it}" style="display:none">
+    <div id="box_grey">
+      <div>
+        <div style="overflow:hidden;padding:5px" width="100%" id="fast_1" name="fast_1">
+
+          <div class="bdr2">
+            <div id="up{$it}1" name="up{$it}1" style="display:block">
+              <div class="hed8" onclick="down_show({$it}1)">История счетчиков:<em>&darr;</em></div>
+            </div>
+            <div id="down{$it}1" name="down{$it}1" style="display:none">
+              <div class="hed8" style="cursor: pointer" onclick="down_hide({$it}1)">История счетчиков:<em>&uarr;</em></div>
+              <IFRAME id="schet{$smarty.section.ssc1.iteration}" name="schet{$smarty.section.ssc1.iteration}" src="{$SERVER_ROOT}/schet.php?act=view&kn={$object.kn}&nom={$object.nom}&sc_dubl={$object.sc_dubl}&uch={$smarty.section.ssc1.iteration}" frameborder=0 marginheight=0 marginwidth=0 width="100%" height="240"></IFRAME>
+            </div>
+          </div>
+
+          <div class="bdr2">
+            <div id="up{$it}2" name="up{$it}2" style="display:black">
+              <div class="hed8" style="cursor: pointer" onclick="down_show({$it}2)">История тарифов:<em>&darr;</em></div>
+            </div>
+            <div id="down{$it}2" name="down{$it}2" style="display:none">
+              <div class="hed8" style="cursor: pointer" onclick="down_hide({$it}2)">История тарифов:<em>&uarr;</em></div>
+              <IFRAME id="tarif" name="tarif" src="{$SERVER_ROOT}/tarhist.php?act=view&kn={$object.kn}&nom={$object.nom}&uch={$smarty.section.ssc1.iteration}&mt={$mt}" style='width: 100%;' frameborder=0 marginheight=0 marginwidth=0 height="280"></IFRAME>
+            </div>
+          </div>
+          <div class="bdr2">
+            <div id="up{$it}3" name="up{$it}3" style="display:block">
+              <div class="hed8" style="cursor: pointer" onclick="down_show({$it}3)">История обходов:<em>&darr;</em></div>
+            </div>
+            <div id="down{$it}3" name="down{$it}3" style="display:none">
+              <div class="hed8" style="cursor: pointer" onclick="down_hide({$it}3)">История обходов:<em>&uarr;</em></div>
+              <IFRAME id="obhod{$smarty.section.ssc1.iteration}" name="obhod{$smarty.section.ssc1.iteration}" src="{$SERVER_ROOT}/obhod.php?act=view&kn={$object.kn}&nom={$object.nom}&uch={$smarty.section.ssc1.iteration}" style='width: 100%;' frameborder=0 marginheight=0 marginwidth=0  height="300"></IFRAME>
+            </div>
+          </div>
+          <div class="bdr2">
+            <div id="up{$it}4" name="up{$it}4" style="display:none">
+              <div class="hed8" style="cursor: pointer" onclick="down_show({$it}4)">История оплат:<em>&darr;</em></div>
+            </div>
+            <div id="down{$it}4" name="down{$it}4" style="display:block">
+              <div class="hed8" style="cursor: pointer" onclick="down_hide({$it}4)">История оплат:<em>&uarr;</em></div>
+              <IFRAME id="oplata{$smarty.section.ssc1.iteration}" name="oplata{$smarty.section.ssc1.iteration}" src="{$SERVER_ROOT}/oplata.php?act=view&kn={$object.kn}&nom={$object.nom}&uch={$smarty.section.ssc1.iteration}&askue={$object.askue}" frameborder=0 marginheight=0 marginwidth=0 width="100%" height="800"></IFRAME>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+{assign var="it" value=$it+1}
+{/section}
+{/if}
+{/if}

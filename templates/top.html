@@ -1,0 +1,210 @@
+<div style="line-height:7px;width:100%"> &nbsp;</div>
+<div id="simple" name="simple">
+	<div id="topline1">
+		<form name="filter_s" id="filter_s"  method="post" action={if ($deleted)}"{$SERVER_ROOT}/deleted.php" style="background:#d7c295"{else}"{$SERVER_ROOT}/index.php"{/if}>
+			<input type="hidden" name="act" value="search_simple">
+			<input type="hidden" name="id_user" value="">
+			<input type="hidden" name="rpage" value="">
+			<input type="hidden" name="ekn" value="">
+			<input type="hidden" name="enom" value="">
+			<input type="hidden" name="page_num" value="{$page_num}">
+			<input type="hidden" name="order_num" value="{$order_num}">
+			<div class="wrap">
+						<input type="text" name="s_text" class="text" id="s_text" autocomplete="off" value="{$s_text}" />
+						<input type="submit" class="button" value="Найти" />
+						<input type="button" class="button1" onclick="$('calkulator').style.display='block';" style="width:auto;margin:3px 0 0 20px;border:2px solid #FFF" value="Калькулятор" />
+			</div>
+
+			<div class="wrap-sp">
+				<div style="padding-top:7px;float:left">
+					Например: <a href="#" class="sear" {literal}onclick="document.getElementById('s_text').value='0002043'; return false"{/literal}>0002043</a>
+					или <a href="#" class="sear" {literal}onclick="document.getElementById('s_text').value='0100'; return false"{/literal}>Номер книги</a>
+					или <a href="#" class="sear" {literal}onclick="document.getElementById('s_text').value='Иванов'; return false"{/literal}>Иванов</a>
+					или <a href="#" id="addr-help-link" class="sear" onClick="vis_toggle('addr-help-div');" >Поиск по адресу из строки</a>
+					<div id="addr-help-div" class="popup-tooltip" onMouseOut="//tooltip_hide(this.id, 'addr-help-div');" style="display:none;">
+						<h3>Поиск по адресу из строки</h3>
+						<p>
+						Для поиска адреса необходимо в строке поиска <br> поставить символ * (знак умножения):<br>
+						После него пишем иcкомый адрес в порядке убывания<br>
+						<b>город улица дом квартира</b>(не нужные можно пропускать) <br>
+						Адрес писать можно не полностью, регистр символов не важен, но порядок важен
+						</p>
+						<ul>
+							<li>
+								<a href="#" class="sear" {literal}onclick="document.getElementById('s_text').value='*баран машер 4';vis_hide('addr-help-div'); return false"{/literal}>*баран машер 4</a>
+								ищем: Барановичи Машерова 4(или 14 или 44 или 41 и т.д)
+							</li>
+							<li>
+								символ / обозначает начало или конец строки, например<br>
+								<a href="#" class="sear" {literal}onclick="document.getElementById('s_text').value='*баран машер 4/';vis_hide('addr-help-div'); return false"{/literal}>*баран машер 4/</a>
+								ищем: Барановичи Машерова дома которые<br> заканчиваются на 4 ( 4 или 14 или 44 но не 41 и т.д)
+							</li>
+
+							<li>
+							  перед номером квартиры ставим -<br>
+								<a href="#" class="sear" {literal}onclick="document.getElementById('s_text').value='Иванов *баран машер 4';vis_hide('addr-help-div'); return false"{/literal}>Иванов *баран машер -1</a>
+								ищем: Иванова который проживает по адресу <br> Барановичи Машерова (все равно какой дом) квартира начинается на 1
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div style="padding-top:7px;padding-right:19%;float:right">
+					<a href="#" class="sear" {literal}onclick="document.getElementById('extended').style.display='block';document.getElementById('simple').style.display='none'; return false"{/literal}>расширенный поиск <em>&rarr;</em></a>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+		<div class="calkulator" id="calkulator" name="calkulator" style="display:none">
+			Номер абонента: <input style="width:100px" type="text" name="knnom1" id="knnom1" onkeyup="CheckInt(this)" value="{$object.kn}{$object.nom}">
+			&nbsp;&nbsp;
+			кВтч: <input style="width:100px" type="text" name="kvtch1" id="kvtch1" onkeyup="CheckInt(this)" value="">
+			&nbsp;&nbsp;
+			<input type="button" name="butt" id="submit"  value="Рассчитать{if ($fast_tarif2)!=''} (тариф 1){/if}" onclick="kalkulator(1)">
+			&nbsp;&nbsp;
+			<span id="rkalkul_1" name="rkalkul_1"> </span>
+            {if ($fast_tarif2)!=''}
+            <br>
+            Номер абонента: <input style="width:100px" type="text" name="knnom2" id="knnom2" onkeyup="CheckInt(this)" value="{$object.kn}{$object.nom}">
+            &nbsp;&nbsp;
+            кВтч: <input style="width:100px" type="text" name="kvtch2" id="kvtch2" onkeyup="CheckInt(this)" value="">
+            &nbsp;&nbsp;
+            <input type="button" name="butt" id="submit"  value="Рассчитать (тариф 2)" onclick="kalkulator(2)">
+            &nbsp;&nbsp;
+            <span id="rkalkul_2" name="rkalkul_2"> </span>
+            {/if}
+			{if ($fast_tarif3)!=''}
+            <br>
+            Номер абонента: <input style="width:100px" type="text" name="knnom3" id="knnom3" onkeyup="CheckInt(this)" value="{$object.kn}{$object.nom}">
+            &nbsp;&nbsp;
+            кВтч: <input style="width:100px" type="text" name="kvtch3" id="kvtch3" onkeyup="CheckInt(this)" value="">
+            &nbsp;&nbsp;
+            <input type="button" name="butt" id="submit"  value="Рассчитать (тариф 3)" onclick="kalkulator(3)">
+            &nbsp;&nbsp;
+            <span id="rkalkul_3" name="rkalkul_3"> </span>
+            {/if}
+		</div>
+{literal}
+<script>
+    function kalkulator(uch)
+    {
+        {/literal}
+        knnom = document.getElementById('knnom'+uch).value;
+        kvtch = document.getElementById('kvtch'+uch).value;
+        request = "ajax.php?act=kalkulator";
+        request = request + "&knnom="+knnom+"&kvtch="+kvtch+"&uch="+uch;
+        loadContent(request,'rkalkul_'+uch);
+        {literal}
+    }
+</script>
+{/literal}
+
+<div id="extended" name="extended" style="display:none">
+<div id="topline1">
+<form name="filter" id="filter" method="post" action={if ($deleted)}"{$SERVER_ROOT}/deleted.php" style="background:#d7c295"{else}"{$SERVER_ROOT}/index.php"{/if}>
+<input type="hidden" name="act" value="search">
+<input type="hidden" name="id_user" value="">
+<input type="hidden" name="rpage" value="">
+<input type="hidden" name="ekn" value="">
+<input type="hidden" name="enom" value="">
+<input type="hidden" name="page_num" value="{$page_num}">
+<input type="hidden" name="order_num" value="{$order_num}">
+<div class="wrap">
+<table width="100%" cellspacing="2" cellpadding="2" border="0">
+<tr><td>
+    <input type="checkbox" value="1" id="sel_all_ab" name="sel_all_ab" {if ($sel_all_ab==1)}checked{/if}> Отобразить всех абонентов
+    {literal}
+        <script>
+            function sel_all_ab(tt) {
+
+            }
+        </script>
+    {/literal}
+</td></tr>
+</table>
+</div>
+<div class="wrap" style="padding-top:3px">
+<table class="filter_tab">
+<tr><td>
+№ книги <input type="text" name="kn" maxlength="4" value="{$kn}" tabindex="1" size="8">-<input type="text" name="nom" size="7" maxlength="3" value="{$nom}" tabindex="2">
+</td><td>Фамилия <input type="text" name="fam" maxlength="128" value="{$fam}"></td><td>Имя <input type="text" name="im" size="20" maxlength="128" value="{$im}"></td><td>Отчество <input type="text" name="ot" size="20" maxlength="128" value="{$ot}">
+</td></tr>
+</table>
+</div>
+<div class="wrap" style="padding-top:3px">
+<table  class="filter_tab">
+<tr>
+<td>
+Тип нас. пункта
+</td>
+<td>
+<select name="tip_np" id="tip_np" onchange="spis1('np')">
+<option class="coption_grey" value="" SELECTED>Не важно</option>
+{foreach from=$tipnasp item=item}
+<option class="coption" value="{$item.id}" {if ($item.id==$tip_np)} selected {/if}>{$item.tip_np}</option>
+{/foreach}
+</select>
+</td>
+<td>
+Нас. пункт
+</td>
+<td>
+<div id="nas_punkt_c" name="nas_punkt_c">
+<select name="np" id="np" onchange="spis2('street')">
+<option class="coption_grey" value=""  SELECTED>Не важно</option>
+{foreach from=$nasp_spisok item=item}
+<option class="coption" value="{$item.id}" {if ($item.id==$np)} selected {/if} >{$item.np}</option>
+{/foreach}
+</select>
+</div>
+</td>
+<td>
+Улица
+</td>
+<td>
+<div id="street_c">
+<select name="street" id="street">
+<option class="coption_grey" value="" SELECTED>Не важно</option>
+{foreach from=$street_spisok item=item}
+<option class="coption" value="{$item.id}" {if ($item.id==$street)} selected {/if}>{$item.tip_street} {$item.street}</option>
+{/foreach}
+</select>
+</div>
+</td>
+<td>
+Дом
+<input type="text" name="dom" size="10" maxlength="30" value="{$dom}" style="width:40px">/<input type="text" name="domadd" size="10" maxlength="30" value="{$domadd}" style="width:40px">&nbsp;&nbsp;
+Квартира &nbsp;<input type="text" name="kb" size="10" maxlength="4" value="{$kb}" style="width:40px">
+</td>
+</tr>
+</table>
+</div>
+<div class="wrap" style="padding-top:3px">
+<table class="filter_tab">
+<tr>
+<td>
+Номер счетчика <input type="text" name="schet" size="10" maxlength="16" value="{$schet}" style="width:80px">
+</td>
+<td>
+Номер пломбы  <input type="text" name="plomba" size="10" maxlength="16" value="{$plomba}" style="width:80px">
+</td>
+</tr>
+</table>
+</div>
+
+<div class="wrap" style="padding-top:7px">
+<div style="float:left">
+<!-- <a href="#" class="sear">Очистить</a> -->
+</div>
+<div style="float:left">
+<a href="#" class="sear" onclick="document.getElementById('extended').style.display='none';document.getElementById('simple').style.display='block'; return false">перейти к простому поиску &rarr;</a>
+</div>
+<div style="float:right">
+<input type="submit" class="button" value="Найти" onclick="gosearch()" >
+</div>
+</div>
+</form>
+</div>
+</div>
+<div style="clear:both"> </div>

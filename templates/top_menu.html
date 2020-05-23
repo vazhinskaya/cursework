@@ -1,0 +1,128 @@
+<div style="font-size:14px; color:#000;width:100%;text-align:center;">
+            {$settings.org}:{$username}
+</div>
+
+<div>
+<ul id="nav">
+	<li> <a href="{$SERVER_ROOT}/index.php">Главное</a>
+	  <ul>
+		{if (!$deleted)}<li class="dost_krome_sprav"><a href="{$SERVER_ROOT}/index.php?act=addab">Добавить нового абонента</a></li>{/if}
+		<li><a href="{$SERVER_ROOT}/deleted.php">Удаленные абоненты</a></li>
+    	<li><a href="{$SERVER_ROOT}/help.php"><b>Помощь</b></a>
+		  <ul>
+        	<li><a href="{$SERVER_ROOT}/help.php?a=win">Что нового в программе</a></li>
+        	<li><a href="{$SERVER_ROOT}/help.php?a=faq">Часто задаваемые вопросы</a></li>
+        	<li><a href="{$SERVER_ROOT}/help.php?a=contacts">Контактные данные разработчиков</a></li>
+	    	<li><a href="{$SERVER_ROOT}/help.php?a=plans">Планы по разработке программы</a></li>
+    	  </ul>
+    	</li>
+    	<li class="dost_krome_sprav"><a href="{$SERVER_ROOT}/import_ascue.php">Импорт АСКУЭ</a></li>
+    	<li class="dost_krome_sprav"><a href="{$SERVER_ROOT}/sql2txt.php">Экспорт TXT для Брестэнерго</a></li>
+    	<li class="dost_krome_sprav"><a href="{$SERVER_ROOT}/sql2privyazka.php">Экспорт файлов привязки</a>		<li><a href="{$SERVER_ROOT}/buh.php">Бухгалтерия</a></li>
+        <li class="dost_krome_sprav"><a href="{$SERVER_ROOT}/fast_obhod.php"><b>Быстрый ввод обходов</b></a></li>
+    	<li><a href="{$SERVER_ROOT}/fast_obhod.php?act=view_zadachi">Обходы для мобильного</a></li>
+		<li><a href="{$SERVER_ROOT}/index.php?act=exit">Выход</a></li>
+      </ul>
+	</li>
+
+	<li><a href="{$SERVER_ROOT}/index.php">Поиск</a>
+	  <ul>
+		<li><a href="{$SERVER_ROOT}/index.php"      >Поиск абонентов</a></li>
+		<li><a href="{$SERVER_ROOT}/freeknnom.php"  >Поиск свободных номеров</a></li>
+		<li><a href="{$SERVER_ROOT}/kvit_search.php">Поиск квитанций</a></li>
+	    <li><a href="{$SERVER_ROOT}/lgot_end.php"   >Поиск окончаний льгот</a></li>
+        <li><a href="{$SERVER_ROOT}/lgot_per.php"   >Поиск перерегистраций льготников</a></li>
+        <li><a href="{$SERVER_ROOT}/sc_neispr.php"  >Поиск неисправных счетчиков</a></li>
+	    <li><a href="{$SERVER_ROOT}/wrong.php"      >Поиск неверных</a></li>
+	  </ul>
+	</li>
+
+	<li><a href="{$SERVER_ROOT}/kvit.php">Квитанции</a>
+	  <ul>
+    	<li><a href="{$SERVER_ROOT}/kvit.php?a=vvod_kvit&step=reg_pachka">Новая пачка</a></li>
+    	<li><a href="{$SERVER_ROOT}/kvit.php?a=vvod_kvit&step=choose_pachka">Незавершённые пачки</a></li>
+    	<li><a href="{$SERVER_ROOT}/kvit.php?a=import_pachka&step=pre_import_pachka">Импорт пачек</a></li>
+        <li><a href="{$SERVER_ROOT}/kvit.php?a=import_pachka&step=arc_import_pachka">Импорт пачек (архив)</a></li>
+    	<li><a href="{$SERVER_ROOT}/kvit.php?a=zpachka&step=view_server">Журнал пачек-Общая база</a></li>
+    	<li><a href="{$SERVER_ROOT}/kvit.php?a=zpachka&step=view_local">Журнал пачек-Незавершенные</a></li>
+    	<li><a href="{$SERVER_ROOT}/kvit.php?a=zkvitxvp&step=view">Неясные квитанции / ПрочиеПлатежи</a></li>
+	  </ul>
+	</li>
+
+	<li><a href="{$SERVER_ROOT}/otchet.php">Отчеты</a>
+	  <ul>
+        <li><a href="{$SERVER_ROOT}/otchet.php?a=f_01"            >ФОРМА 1 - Ведомость оплаты</a></li>
+		<li><b><a href="{$SERVER_ROOT}/otchet.php?a=common_report">Общий отчёт</a></b></li>
+	    <li><a href="{$SERVER_ROOT}/otchet.php?a=f_04"            >ФОРМА 4 - Задолженность насел. за эл.эн.</a></li>
+        <li><a href="{$SERVER_ROOT}/otchet.php?a=f_05"            >ФОРМА 5 - Акт сверки платежей от нас-я</a></li>
+       	<li><a href="{$SERVER_ROOT}/otchet.php?a=f_06"            >ФОРМА 6 - По предоставлению льгот</a></li>
+	    <li><a href="{$SERVER_ROOT}/otchet.php?a=f_07"            >ФОРМА 7 - Учет движения счетчиков</a></li>
+        <li><a href="{$SERVER_ROOT}/otchet.php?a=f_08"            >ФОРМА 8 - Сведения по неплательщикам</a></li>
+		<li><a href="{$SERVER_ROOT}/otchet.php?a=lgotniki_prinadl">Списки льготников</a></li>
+		<li><a href="{$SERVER_ROOT}/otchet.php?a=tipy_postroek"   >Абоненты в разрезе типов построек</a></li>
+		<li><a href="{$SERVER_ROOT}/otchet.php?a=reestr_vozv"     >Реестр возврата квитанций(за услуги)</a></li>
+	    <li><a href="{$SERVER_ROOT}/otchet.php?a=kontr_nak_ved"   >Контр.-накопит.ведомость платежей</a></li>
+	    <li><a href="{$SERVER_ROOT}/otchet.php?a=priviazka"       >О привязке точек учета к распредсети</a></li>
+       	<li><b><a href="{$SERVER_ROOT}/otchet.php?a=f_constructor">Конструктор отчета</a></b></li>
+      </ul>
+	</li>
+
+	<li><a href="{$SERVER_ROOT}/sprav.php?act=list">Справочники</a>
+	  <ul>
+		<li><a href="#" onclick="return 0;" class="nav_cat">Справочники общего назначения ></a>
+    	  <ul>
+	        <li><a href="{$SERVER_ROOT}/sprav.php?act=diapazon"  >Диапазон номеров для РЭСов</a></li>
+            <li><a href="{$SERVER_ROOT}/sprav.php?act=tip_res"   >Типы РЭС-ов</a></li>
+            <li><a href="{$SERVER_ROOT}/sprav.php?act=tip_np"    >Типы населенных пунктов</a></li>
+           	<li><a href="{$SERVER_ROOT}/sprav.php?act=tip_street">Типы улиц</a></li>
+	        <li><a href="{$SERVER_ROOT}/sprav.php?act=tip_postr" >Типы построек</a></li>
+        	<li><a href="{$SERVER_ROOT}/sprav.php?act=tipsc"     >Типы счетчиков</a></li>
+            <li><a href="{$SERVER_ROOT}/sprav.php?act=vidlg"     >Виды льгот</a></li>
+            <li><a href="{$SERVER_ROOT}/sprav.php?act=vidtar"    >Тарифы</a></li>
+	        <li><a href="{$SERVER_ROOT}/sprav.php?act=nomr"      >Буквенные обозначения: Общее</a></li>
+        	<li><a href="{$SERVER_ROOT}/sprav.php?act=nomr_otkl" >Буквенные обозначения: Отключения</a></li>
+            <li><a href="{$SERVER_ROOT}/sprav.php?act=plpr"      >Приемщики платежей</a></li>
+            <li><a href="{$SERVER_ROOT}/sprav.php?act=kalkul"    >Калькуляции</a></li>
+	        <li><a href="{$SERVER_ROOT}/sprav.php?act=kalkul2"   >Калькуляция 2. Цены на бензин.</a></li>
+        	<li class="dost_all"><a href="{$SERVER_ROOT}/spravsprav.php">Справочник справочников</a></li>
+          </ul>
+	    </li>
+    	<li><a  href="#" onclick="return 0;" class="nav_cat">Справочники адресов ></a>
+          <ul>
+    	   	<li><a href="{$SERVER_ROOT}/sprav.php?act=np"    >Населенные пункты</a></li>
+	        <li><a href="{$SERVER_ROOT}/sprav.php?act=region">Регионы</a></li>
+        	<li><a href="{$SERVER_ROOT}/sprav.php?act=street">Улицы</a></li>
+            <li><a href="{$SERVER_ROOT}/sprav.php?act=dom"   >Дома</a></li>
+	      </ul>
+       	</li>
+    	<li><a href="{$SERVER_ROOT}/sprav.php?act=personal"   >Сотрудники</a></li>
+        <li><a href="{$SERVER_ROOT}/sprav.php?act=tip_prinadl">Принадлежности</a></li>
+		<li><a href="{$SERVER_ROOT}/sprav.php?act=ktp"        >КТП</a></li>
+        <li><a href="{$SERVER_ROOT}/sprav.php?act=config"     >Настройка РЭС</a></li>
+	  </ul>
+	</li>
+
+	<li><a href="{$SERVER_ROOT}/index.php">Архив</a>
+	  <ul>
+		<li><a href="{$SERVER_ROOT}/byt2011/index.php"> Архив 2011 года </a></li>
+		<li><a href="{$SERVER_ROOT}/byt2014/index.php"> Архив 2014 года </a></li>
+      </ul>
+    </li>
+
+		<li><a href="http://www.bes.brest.energo.net"> Сайт БЭС *</a></li>
+		{if $user_access == 7}
+		<li>
+			<a href="#">Импорт</a>
+			<ul>
+				<li><a href="{$SERVER_ROOT}/txt2sql.php"> Импорт BR </a></li>
+				<li><a href="{$SERVER_ROOT}/dbf2sql.php"> Импорт DF </a></li>
+			</ul>
+		</li>
+		{/if}
+<!--
+		<li><a style="color:#AFA" onclick="$('calkulator').style.display='block';" href="#">Калькулятор</a></li>
+-->
+		{$detail_menu}
+	</ul>
+</div>
+<div style="clear:both"></div>

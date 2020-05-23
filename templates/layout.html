@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>{$title}</title>
+	<meta http-equiv="Content-Style-Type" content="text/css">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Language" content="RU">
+	<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, post-check=0, pre-check=0">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta name="rating" content="General">
+	<meta name="expires" content="never">
+	<meta name="distribution" content="Global">
+	<meta name="robots" content="ALL">
+	<meta name="revisit-after" content="2 Days">
+	<link rel="shortcut icon" href="{$SERVER_ROOT}/favicon.ico">
+    <link type="text/css" rel="stylesheet" href="{$SERVER_ROOT}/style/dhtmlgoodies_calendar.css">
+	<script type="text/javascript" language="javascript" src="{$SERVER_ROOT}/scripts/dhtmlgoodies_calendar.js?random=20090101"></script>
+	<script src="{$SERVER_ROOT}/scripts/jquery.js"></script>
+	<script type="text/javascript" src="{$SERVER_ROOT}/scripts/tab_helper.js"></script>
+	<script type="text/javascript" src="{$SERVER_ROOT}/scripts/mootools.js"></script>
+    <script type="text/javascript" src="{$SERVER_ROOT}/scripts/main.js?id=72"></script>
+    <script type="text/javascript" src="{$SERVER_ROOT}/scripts/lib_general.js"></script>
+    <link href="{$SERVER_ROOT}/style/style.css" rel="stylesheet" type="text/css">
+    <link href="{$SERVER_ROOT}/style/sprav_style.css" rel="stylesheet" type="text/css">
+    <link href="{$SERVER_ROOT}/style/dostup{$user_access}.css?id=16" rel="stylesheet" type="text/css">
+</head>
+
+<body onload="initmain()" style="background:#EEEEEE">
+	<div style="width:990px;margin:0 auto;background:#FFFFFF; border:1px solid #CCCCCC">
+
+			{include file='top_menu.html'}
+			{include file='top.html'}
+			{include file=$main_area}
+			{include file='bottom.html'}
+	</div>
+
+</body>
+</html>

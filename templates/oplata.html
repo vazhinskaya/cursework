@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Style-Type" content="text/css">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Language" content="RU">
+	<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, post-check=0, pre-check=0">
+	<meta http-equiv="Pragma" content="no-cache">
+    <link type="text/css" rel="stylesheet" href="{$SERVER_ROOT}/style/dhtmlgoodies_calendar.css">
+	<SCRIPT type="text/javascript" language="javascript" src="{$SERVER_ROOT}/scripts/dhtmlgoodies_calendar.js?random=20090101"></script>
+	<script type="text/javascript" src="{$SERVER_ROOT}/scripts/mootools.js"></script>
+    <script type="text/javascript" src="{$SERVER_ROOT}/scripts/main.js"></script>
+    <script type="text/javascript" src="{$SERVER_ROOT}/scripts/lib_general.js"></script>
+    <link href="{$SERVER_ROOT}/style/style.css" rel="stylesheet" type="text/css">
+	<link href="{$SERVER_ROOT}/style/dostup{$user_access}.css?id=16" rel="stylesheet" type="text/css">    
+</head>
+
+<body>
+	{literal}
+		<script>
+			function deloplata(tt)
+			{
+				if (confirm("Действительно удалить?"))
+				{
+					document.location = "{/literal}{$SERVER_ROOT}{literal}/oplata.php?act=delete&kn={/literal}{$kn}{literal}&nom={/literal}{$nom}{literal}&uch={/literal}{$uch}{literal}&id="+tt;
+				}
+				return false;
+			}
+			function moovneyasn(tt)
+			{
+				if (confirm("Перенести в неясные?"))
+				{
+					document.location = "{/literal}{$SERVER_ROOT}{literal}/oplata.php?act=moov&kn={/literal}{$kn}{literal}&nom={/literal}{$nom}{literal}&id="+tt;
+				}
+				return false;
+			}
+			
+			function showsn()
+			{
+		        t1=document.getElementsByName("tt1");
+		        t1.item(0).className="tab-content table-hide";
+
+		        t2=document.getElementsByName("tt2");
+		        t2.item(0).className="tab-content table-show";
+		        return false;
+			}
+
+			function hidesn()
+			{
+		        t1=document.getElementsByName("tt1");
+		        t1.item(0).className="tab-content table-show";
+
+		        t2=document.getElementsByName("tt2");
+		        t2.item(0).className="tab-content table-hide";
+		        return false;
+			}
+			
+			function save_kvit(b)
+			{
+				error = "";
+				if (document.getElementById('meskv1').value=="") {error = "месяц квитанции, ";}
+				if (document.getElementById('datekv1').value=="") {error = error + "дата квитанции, ";}
+                {/literal}
+                {if ($act!="edit_nach")}
+                {literal}
+				if (document.getElementById('oppenkv1').value=="") {document.getElementById('oppenkv1').value="0";}
+				if ((document.getElementById('opsumkv1').value=="") || (document.getElementById('opsumkv1').value<="0")) {error = error + "сумма должна быть больше нуля, ";}
+                {/literal}
+                {/if}
+                {literal}
+				if (error=="") {
+					b.disabled=true;
+					$("frm_opl1").submit();
+				}
+				else {alert("Неверно: "+error);}
+			}
+		
+			function save_nach(b)
+			{
+				error = "";
+				if (document.getElementById('meskv2').value=="") {error = "месяц квитанции, ";}
+				if (document.getElementById('datekv2').value=="") {error = error + "дата квитанции, ";}
+				if (error=="") {
+					b.disabled=true;
+					$("frm_opl2").submit();
+				}
+				else {alert("Неверно: "+error);}
+			}
+
+			function save_sch(b)
+			{
+				error = "";
+				if (document.getElementById('meskv3').value=="") {error = "месяц квитанции, ";}
+				if (document.getElementById('datekv3').value=="") {error = error + "дата квитанции, ";}
+				if ((document.getElementById('oppokkv3').value=="") || (document.getElementById('oppokkv3').value<="0")) {error = error + "показание должно быть больше нуля, ";}
+				// if ((document.getElementById('opsumkv3').value=="") || (document.getElementById('opsumkv3').value<="0")) {error = error + "сумма должна быть больше нуля, ";}
+				if (error=="") {
+					b.disabled=true;
+					$("frm_opl3").submit();
+				}
+				else {alert("Неверно: "+error);}
+			}
+
+			function dont_save()
+			{
+				frm_opl1.act.value = "view";
+				$("frm_opl1").submit();
+			}
+		
+		</script>
+	{/literal}
+{if ($act=="view")}
+	<!-- Для добавления новой квитанции -->
+	<div style="display:none" name="add_new" id="add_new">
+		Добавить новую квитанцию:
+		<form method="post" action="oplata.php" name="frm_opl1" id="frm_opl1">
+			<input type="hidden" name="act" value="add_save">
+			<input type="hidden" name="op[knkv]" value="{$kn}">
+			<input type="hidden" name="op[nomkv]" value="{$nom}">
+			<input type="hidden" name="op[uchkv]" value="{$uch}">
+			<input type="hidden" name="op[oshkv]" value="1">
+			<input type="hidden" name="mt" value="{$mt}">
+			<input type="hidden" name="id" value="{$kvitedit.id}">
+			<div class="grid np">
+			<table width="100%">
+				<col width="20%">
+                <col width="20%">
+				<col width="20%">
+				<col width="20%">
+				<col width="20%">
+				<col width="20%">
+				<thead>
+				<tr class="headings">
+					<th>Дата <span class="grey">(дд.мм.гггг)</th>
+					<th>Месяц <span class="grey">(мм.гггг)</th>
+					<th>Показание</th>
+					<th>Сумма</th>
+					<th>Пеня</th>
+				</tr>
+				</thead>
+    			<tbody>
+				<tr>
+					<td><input style="width:50%;margin-right:4px" type="text" maxlength="10" name="datekv" id="datekv1" size="10" maxlength="15" value="{$kvitedit.datekv}" onkeyup="check_date(this);" onchange="check_date(this);"><input type="button" value="Дата" onclick="displayCalendar(document.forms[0].datekv,'dd.mm.yyyy',this)"> </td>
+					<td><input style="width:50%;margin-right:4px" maxlength="7" type="text" name="meskv" id="meskv1" value="{$kvitedit.meskv}"><input type="button" value="Дата" onclick="displayCalendar(document.forms[0].meskv,'mm.yyyy',this)"></td>
+					<td><input style="width:98%" type="text" name="op[pokkv]" maxlength="10" id="oppokkv1" onkeyup="CheckInt(this)" value="{$kvitedit.pokkv}"></td>
+					<td><input style="width:98%" type="text" name="op[sumkv]" maxlength="10" id="opsumkv1" onkeyup="CheckFloat(this)" value="{$kvitedit.sumkv}"></td>
+					<td><input style="width:98%" type="text" name="op[penkv]" maxlength="10" id="oppenkv1" onkeyup="CheckFloat(this)" value="{$kvitedit.penkv}"></td>
+				</tr>
+				</tbody>
+			</table>
+			</div>
+			<table width="100%">
+				<tr>
+					<td>
+					</td>
+					<td width="100" align="left">
+						<input type="button" onclick="save_kvit(this);return false;" name="save" value="Сохранить">
+					</td>
+					<td width="100" align="left">
+						<input type="button" name="bcancel" value="Отменить" onclick="$('add_new').style='display:none';$('ads').style='display:block';">
+					</td>
+				</tr>
+			</table>	
+		</form>
+	</div>
+	<!-- Для добавления начала расчета -->
+	<div style="display:none" name="add_nach" id="add_nach">
+		Добавить начало расчета:
+		<form method="post" action="oplata.php" name="frm_opl2" id="frm_opl2">
+			<input type="hidden" name="act" value="add_save">
+			<input type="hidden" name="op[knkv]" value="{$kn}">
+			<input type="hidden" name="op[nomkv]" value="{$nom}">
+			<input type="hidden" name="op[uchkv]" value="{$uch}">
+			<input type="hidden" name="op[oshkv]" value="9">
+			<input type="hidden" name="mt" value="{$mt}">
+			<input type="hidden" name="id" value="{$kvitedit.id}">
+			<div class="grid np">
+			<table width="100%">
+				<col width="20%">
+				<col width="20%">
+				<col width="20%">
+				<col width="20%">
+				<col width="20%">
+				<thead>
+				<tr class="headings">
+					<th>Дата <span class="grey">(дд.мм.гггг)</span></th>
+					<th>Месяц <span class="grey">(мм.гггг)</th>
+					<th>Показание</th>
+					<th> </th>
+					<th> </th>
+				</tr>
+				</thead>
+    			<tbody>
+				<tr>
+					<td><input style="width:50%;margin-right:4px" type="text" maxlength="10" name="datekv" id="datekv2" size="10" maxlength="15" value="{$kvitedit.datekv}" onkeyup="check_date(this);" onchange="check_date(this);"><input type="button" value="Дата" onclick="displayCalendar(document.forms[1].datekv,'dd.mm.yyyy',this)"> </td>
+					<!-- <td><input style="width:98%" type="text" name="datekv" id="datekv" value="{$kvitedit.datekv}"></td>-->
+					<td><input style="width:50%;margin-right:4px" maxlength="7" type="text" name="meskv" id="meskv2" value="{$kvitedit.meskv}"><input type="button" value="Дата" onclick="displayCalendar(document.forms[1].meskv,'mm.yyyy',this)"></td>
+					<td><input style="width:98%" type="text" name="op[pokkv]" id="oppokkv2" maxlength="10" onkeyup="CheckInt(this)" value="{$kvitedit.pokkv}"></td>
+					<td></td>
+					<td></td>
+				</tr>
+				</tbody>
+			</table>
+			</div>
+			<table width="100%">
+				<tr>
+					<td>
+					</td>
+					<td width="100" align="left">
+						<input type="button" onclick="save_nach(this);return false;" name="save" value="Сохранить">
+					</td>
+					<td width="100" align="left">
+						<input type="button" name="bcancel" value="Отменить" onclick="$('add_nach').style='display:none';$('ads').style='display:block';">
+					</td>
+				</tr>
+			</table>	
+		</form>
+	</div>
+	
+	<!-- Для добавления выставления счета -->
+	<div style="display:none" name="add_sch" id="add_sch">
+		Выставить счет:
+		<form method="post" action="oplata.php" name="frm_opl3" id="frm_opl3">
+			<input type="hidden" name="act" value="add_save">
+			<input type="hidden" name="op[knkv]" value="{$kn}">
+			<input type="hidden" name="op[nomkv]" value="{$nom}">
+			<input type="hidden" name="op[uchkv]" value="{$uch}">
+			<input type="hidden" name="op[oshkv]" value="4">
+			<input type="hidden" name="mt" value="{$mt}">
+			<input type="hidden" name="id" value="{$kvitedit.id}">
+				<div class="grid np">
+				<table width="100%">
+					<col width="20%">
+					<col width="20%">
+					<col width="20%">
+					<col width="20%">
+					<col width="20%">
+					<thead>
+					<tr class="headings">
+						<th>Дата <span class="grey">(дд.мм.гггг)</th>
+						<th>Месяц <span class="grey">(мм.гггг)</th>
+						<th>Показание</th>
+						<!-- <th>Сумма</th> -->
+						<th> </th>
+					</tr>
+					</thead>
+        			<tbody>
+					<tr>
+						<td><input style="width:50%;margin-right:4px" type="text" maxlength="10" name="datekv" id="datekv3" size="10" maxlength="15" value="{$kvitedit.datekv}" onkeyup="check_date(this);" onchange="check_date(this);"><input type="button" value="Дата" onclick="displayCalendar(document.forms[2].datekv,'dd.mm.yyyy',this)"> </td>
+						<td><input style="width:50%;margin-right:4px" maxlength="7" type="text" name="meskv" id="meskv3" value="{$kvitedit.meskv}"><input type="button" value="Дата" onclick="displayCalendar(document.forms[2].meskv,'mm.yyyy',this)"></td>
+						<td><input style="width:98%" type="text" name="op[pokkv]" id="oppokkv3" maxlength="10" value="{$kvitedit.pokkv}">
+							<input style="width:98%" type="hidden" name="op[sumkv]" id="opsumkv3" maxlength="10" onkeyup="CheckFloat(this)" value="0">
+							<input style="width:98%" type="hidden" name="op[penkv]" id="oppenkv3" maxlength="10" onkeyup="CheckFloat(this)" value="0">
+						</td>
+						<!-- <td><input style="width:98%" type="text" name="op[sumkv]" id="opsumkv3" value="{$kvitedit.sumkv}"></td> -->
+						<td></td>
+					</tr>
+					</tbody>
+				</table>
+				</div>
+				<table width="100%">
+					<tr>
+						<td>
+						</td>
+						<td width="100" align="left">
+							<input type="button" onclick="save_sch(this);return false;" name="save" value="Сохранить">
+						</td>
+						<td width="100" align="left">
+							<input type="button" name="bcancel" value="Отменить" onclick="$('add_sch').style='display:none';$('ads').style='display:block';">
+						</td>
+					</tr>
+				</table>	
+		</form>
+	</div>
+	
+
+	<div name="ads" id="ads" class="dost_krome_sprav">
+		<input class="dost_all_pass" type="button" name="new_kvit" id="submit" class="button_sm" onclick="$('ads').style='display:none'; $('add_new').style='display:block';return false" value=" Новая квитанция ">
+		<input type="button" name="new_nachr" id="submit" class="button_no_width" onclick="$('ads').style='display:none'; $('add_nach').style='display:block';return false" value=" Добавить начало расчета ">
+		<!-- <input type="button" name="new_sch" id="submit" class="button_sm" onclick="$('ads').style='display:none'; $('add_sch').style='display:block';return false" value=" Выставить счет "> -->
+	</div>
+<!--	
+	<input type="button" name="new_kvit" id="submit" class="button_sm" onclick="document.location = SERVER_ROOT.'/oplata.php?act=add&kn={$kn}&nom={$nom}&uch={$uch}'" value=" Новая квитанция ">
+	<input type="button" name="nach_ras" id="submit" class="button_sm" onclick="document.location = SERVER_ROOT.'/oplata.php?act=add_nach&kn={$kn}&nom={$nom}&uch={$uch}'" value=" Добавить начало расчета ">
+	<input type="button" name="schet" id="submit" class="button_sm" value=" Выставить счет ">
+-->	
+     
+		<table width="100%" cellspacing="1" cellpadding="0" border="0">
+			<col width="49%">
+			<col width="32%">
+			<col width="19%">						
+			{if $askuekvit}
+			<tr>
+				<td colspan=3>
+                   {if $dolg_rub>0}
+				      <div style="background:#696;border:1px solid #CCC;padding:10px;color:#FFF">{$askuekvit}</div>
+                   {else}
+                      <div style="background:#D55;border:1px solid #CCC;padding:10px;color:#FFF">{$askuekvit}</div>
+                   {/if}
+				</td>
+			</tr>
+			{/if}
+			<tr>
+				<td align="center" class="hed1a">Оплата по квитанциям</td>
+				<td align="center" class="hed1a">Зачтенная оплата</td>
+				<td align="center" class="hed1a">&nbsp;</td>
+			</tr>
+		</table>
+		<div class="grid np">
+		<table width="100%" cellspacing="0" cellpadding="0" border="0" class="table_cell_right">
+            		<col width="2%">
+			<col>
+			<col>
+			<col>
+			<col>
+			<col>
+			<col>
+			<col>
+			<col>
+			<col>
+			<col>
+			<col>
+			<col>
+			<col>
+	        <thead>
+	        <tr class="headings">
+                <th>&nbsp;</th>
+				<th>Дата</td>
+				<th>Пачка</td>
+				<th>Месяц</td>
+				<th>Показание</td>
+				<th>Сумма</td>
+				<th>Пеня</td>
+				
+				<th style="border-left:1px solid #999999">Месяц</th>
+				<th>Показание</th>
+				<th>кВт*ч</th>
+				<th>кВт*ч льг.</th>
+				<th>Тариф</th>
+				<th style="border-left:1px solid #999999">Ред.</th>
+				<th>Удалить</th>
+			</tr>
+			</thead>
+			<tbody>
+			{foreach from=$kvit_spisok_edit item=item}
+				<tr {if ($item.oshkv>=8)} class="all_main_nach" title="Начало расчета" {else} {if ($item.pachka.kassa=='субсидии')} class="all_main_sch" title="Субсидия" {/if} {if ($item.oshkv==4)} class="all_main_sch" title="Выставленный счет" {/if} {if ($item.errkvit==1)} {if ($item.kvhour==0)}  class="all_main_err_gr" title="Ошибочная квитанция"{else} class="all_main_err" title="Ошибочная квитанция"{/if}{else} {/if}{/if}>
+                    <td><img src="{$SERVER_ROOT}/images/help.gif" title="{$item.fio} {$item.edittime}" style="cursor:help"></td>
+					<td>{$item.datekv|truncate:14:""}</td>
+					<td style="text-align:center"><img src="{$SERVER_ROOT}/images/info.gif" style="cursor:hand" title="Нажмите, чтобы увидеть" onclick="document.getElementById('pachka{$item.id}').style.display='table-row';return false;"></td>
+					<td>{if ($item.oshkv==9)}<b>Н. расч.</b>{else}{if ($item.oshkv==8)}<b>Н. расч.*</b>{else} {if ($item.pachka.dat_form=='')}*{/if}{$item.meskv}{/if}{/if}</td>
+					<td>{$item.pokkv}&nbsp;</td>
+					<td>{if ($item.oshkv<8)}{$item.realsumkv}{/if}</td>
+					<td>{if ($item.oshkv<8)}{$item.penkv}{/if}&nbsp;</td>
+					<td style="border-left:1px solid #999999">{$item.imeskv|truncate:14:""}</td>
+					<td><b>{$item.pokaz}</b>&nbsp;</td>
+					<td>{if ($item.oshkv<8)}{$item.kvhour}{/if}</td>
+					<td>
+                     {if ($item.mas_shifr)}
+						{section name=i loop=$item.expstroka start=0}
+				          {if ($item.expstroka[i][6]>0)}
+	                       {math equation="round(a,0)"
+                                 a=$item.expstroka[i][6]}
+	                      {/if}
+	                    &nbsp
+			 		    {/section}
+                     {else}
+						{section name=i loop=$item.expstroka start=0}
+					    {if ($item.expstroka[i][6]>0)}
+	                      {math equation="round(a*2-a*2*b/c,1)"
+	                            a=$item.expstroka[i][6]
+	                            b=$item.expstroka[i][2]
+	                            c=$item.expstroka[i][1]}
+	                    {/if}
+	                    &nbsp
+						{/section}
+                    {/if}
+					</td>
+					<td>{if ($item.oshkv<8)}{$item.tarif}{/if}</td>
+					<td style="border-left:1px solid #999999;text-align:center">&nbsp;<a title="Редактировать" {if ($item.oshkv>7)}class="dost_krome_sprav"{else}class="dost_all_pass"{/if} href="{$SERVER_ROOT}/oplata.php?act={if ($item.oshkv<8)}edit{else}edit_nach{/if}&kn={$kn}&nom={$nom}&uch={$uch}&id={$item.id}&mt={$mt}"><img src="{$SERVER_ROOT}/images/edit.png" width="16" hspace="2" height="16" border="0"></a></td>
+					<td style="text-align:left">
+						<a href="#" {if ($item.oshkv>7)}class="dost_krome_sprav"{else}class="dost_all_pass"{/if} onclick="deloplata({$item.id});return false" title="Удалить"><img src="{$SERVER_ROOT}/images/del.png" width="16" hspace="2" height="16" border="0"></a>&nbsp;&nbsp;&nbsp;
+						{if ($item.oshkv<8)}
+						<a href="#" class="dost_krome_sprav" onclick="moovneyasn({$item.id});return false" title="В неясные"><img src="{$SERVER_ROOT}/images/au.png" width="16" hspace="2" height="16" border="0"></a>
+						{/if}
+					</td>
+				</tr>
+				<tr id="pachka{$item.id}" name="pachka{$item.id}"  style="display:none;">
+					<td colspan="14" style="padding:10px">
+						<table width="100%">
+							<tr><td style="text-align:left">
+								<a href="#" onclick="document.getElementById('pachka{$item.id}').style.display='none';return false;">скрыть &uarr;</a><br>
+								<b>&uarr; Пачка: <u>{$item.npachkv}</u> | Дата форм.: <u>{$item.pachka.dat_form}</u> | Касса: <u>{$item.pachka.kassa}</u> | Плат. пор: <u>{$item.pachka.ppor}</u> | Оператор: <u>{$item.pachka.tbn}</u></b>
+							</td></tr>
+							<tr><td style="text-align:left">
+							{if ($item.mas_shifr)}
+								<table width="100%">
+									<tr style="background:#E0E0E0;color:#006600;font-weight:bold">
+										<td>кВтч</td>
+										{foreach from=$item.mas_shifr item=itemz}
+											<td>{$itemz.kvt}</td>
+										{/foreach}
+									</tr>
+									<tr style="background:#E0E0E0;color:#006600;font-weight:bold">
+										<td>Тариф</td>
+										{foreach from=$item.mas_shifr item=itemz}
+											<td>{$itemz.tar}</td>
+										{/foreach}
+									</tr>
+									<tr style="background:#E0E0E0;color:#006600;font-weight:bold">
+										<td>Сумма</td>
+										{foreach from=$item.mas_shifr item=itemz}
+											<td>{$itemz.sum}</td>
+										{/foreach}
+									</tr>
+									
+								</table>
+							
+							{else}
+								<table width="100%">
+									<tr style="background:#E0E0E0;color:#006600;font-weight:bold">
+										<td>Дата</td>
+										<td>Полн. тариф</td>
+										<td>Реал. тариф</td>
+										<td>Кол-во дней</td>
+										<td>Норма</td>
+										<td>Сумма нормы</td>
+										<td>кВтч нормы</td>
+										<td>Сумма</td>
+										<td>кВтч</td>
+									</tr>
+  									{section name=i loop=$item.expstroka start=0}
+										<tr>
+											<td>{$item.expstroka[i][0]}&nbsp;</td>
+											<td>{$item.expstroka[i][1]}&nbsp;</td>
+											<td>{$item.expstroka[i][2]}&nbsp;</td>
+											<td>{$item.expstroka[i][3]}&nbsp;</td>
+											<td>{$item.expstroka[i][4]}&nbsp;</td>
+											<td>{$item.expstroka[i][5]}&nbsp;</td>
+											<td>{$item.expstroka[i][6]}&nbsp;</td>
+											<td>{$item.expstroka[i][7]}&nbsp;</td>
+											<td>{$item.expstroka[i][8]}&nbsp;</td>
+										</tr>
+									{/section}
+								</table>
+							{/if}
+							</td></tr>
+						</table>
+					</td>
+				</tr>
+				
+			{/foreach}
+			</tbody>
+<!--			
+			{assign var="pokkv_old" value=0}
+			{assign var="pokaz_old" value=0}
+			{foreach from=$kvit_spisok_edit item=item}
+					{assign var="pokkv_razn" value=$item.pokkv-$pokkv_old}
+					{assign var="pokaz_razn" value=$item.pokaz-$pokaz_old}
+					{assign var="pokkv_old" value=$item.pokkv}
+					{assign var="pokaz_old" value=$item.pokaz}
+			
+				<tr {if ($item.oshkv>=8)} class="all_main_nach" {else} {if ($pokkv_razn!=$pokaz_razn)} class="all_main_err" {else} class="all_main" {/if} {/if}>
+				
+					<td>{$item.datekv|truncate:14:""}</td>
+					<td>{$item.meskv}</td>
+					<td>{$item.pokkv}</td>
+					<td>{$item.sumkv}</td>
+					<td>{$item.penkv}</td>
+					<td>{$item.imeskv|truncate:14:""}</td>
+					<td>{$item.pokaz}</td>
+					<td>{$item.kvhour}</td>
+					<td>{$item.tarif}</td>
+					<td align="center"><a href="{$SERVER_ROOT}/oplata.php?act=edit&kn={$kn}&nom={$nom}&uch={$uch}&id={$item.id}&mt={$mt}"><img src="{$SERVER_ROOT}/images/edit.gif" width="16" hspace="2" height="16" border="0"></a></td>
+					<td align="center"><a href="#" onclick="deloplata({$item.id});return false"><img src="{$SERVER_ROOT}/images/del.gif" width="16" hspace="2" height="16" border="0"></a></td>
+				</tr>
+			{/foreach}
+-->			
+
+		</table>
+		</div>
+		<br>
+{/if}
+{if (($act=="edit") or ($act=="add") or ($act=="edit_nach"))}
+	<form method="post" action="oplata.php" name="frm_opl1" id="frm_opl1">
+		<input type="hidden" name="act" value="{$act}_save">
+		<input type="hidden" name="op[knkv]" value="{$kn}">
+		<input type="hidden" name="op[nomkv]" value="{$nom}">
+        <input type="hidden" name="op[npachkv]" value="{$kvitedit.npachkv}">
+		<input type="hidden" name="op[uchkv]" value="{$uch}">
+		<input type="hidden" name="op[oshkv]" value="{if ($act=="edit_nach")}9{else}1{/if}">
+		<input type="hidden" name="mt" value="{$mt}">
+		<input type="hidden" name="id" value="{$kvitedit.id}">
+			<table width="100%" cellspacing="1" cellpadding="0" border="0">
+				<col width="20%">
+				<col width="20%">
+				<col width="20%">
+                {if ($act!="edit_nach")}
+                    <col width="20%">
+				    <col width="20%">
+                {/if}
+				<tr class="phed1">
+					<td>Дата</td>
+					<td>Месяц (мм.гггг)</td>
+					<td>Показание</td>
+					{if ($act!="edit_nach")}
+                        <td>Сумма</td>
+					    <td>Пеня</td>
+                    {/if}
+				</tr>
+				<tr class="all_main">
+					<td><input style="width:50%;margin-right:4px" type="text" maxlength="10" name="datekv" id="datekv1" size="10" maxlength="15" value="{$kvitedit.datekv}"><input type="button" value="Дата" onclick="displayCalendar(document.forms[0].datekv,'dd.mm.yyyy',this)"> </td>
+					<td><input style="width:50%;margin-right:4px" maxlength="7" type="text" name="meskv" id="meskv1" value="{if ($act!="edit_nach")}{$kvitedit.meskv}{else}{$kvitedit.imeskv}{/if}"><input type="button" value="Дата" onclick="displayCalendar(document.forms[0].meskv,'mm.yyyy',this)"></td>
+					<td><input style="width:98%" type="text" name="op[pokkv]" id="oppokkv1" onkeyup="CheckInt(this)" value="{$kvitedit.pokkv}"></td>
+                    {if ($act!="edit_nach")}
+					    <td><input style="width:98%" type="text" name="op[sumkv]" id="opsumkv1" onkeyup="CheckFloat(this)" value="{$kvitedit.sumkv}"></td>
+					    <td><input style="width:98%" type="text" name="op[penkv]" id="oppenkv1" onkeyup="CheckFloat(this)" value="{$kvitedit.penkv}"></td>
+                    {/if}
+				</tr>
+			</table>
+			<table align="right">
+				<tr>
+					<td width="100" align="left">
+						<input type="button" onclick="save_kvit(this);return false;" name="save" value="Сохранить">
+					</td>
+					<td width="100" align="left">
+						<input type="button" name="bcancel" id="bcancel" value="Отменить" onclick="dont_save();return false;">
+					</td>
+				</tr>
+			</table>	
+	</form>
+{/if}
+{if ($act=="snyat")}
+{/if}
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+    "name": "bares/byt72",
+    "type": "project",
+    "authors": [
+        {
+            "name": "dmitranoid",
+            "email": "dmitranoid@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-PDO": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+    	"phpoffice/phpspreadsheet": "^1.10",
+        "smarty/smarty": "~3.0",
+        "envms/fluentpdo": "v2.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Unibyt\\": "src"
+	}
+    }
+}

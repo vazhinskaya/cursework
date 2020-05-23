@@ -1,0 +1,190 @@
+<link href="{$SERVER_ROOT}/style/sprav_style.css" rel="stylesheet" type="text/css">
+<form name="{$spravTable}" method="get" action="sprav.php" id="{$spravTable}">
+	<input type="hidden" name="act" value="{$sprav}">
+	<input type="hidden" name="order" value="{$order}">
+	<input type="hidden" name="step" value="list">
+	<div class="grid np">
+		<table cellspacing="1" cellpadding="0" border="0" >
+			<tr>
+				<td colspan="{$colspanTable}" valign="middle" class="hed6" align="left" style="text-align:left;">
+					<h1 id="unline">Справочник: <font color="#AAA">{$sprav_name}</font></h1>
+				</td>
+			</tr>
+			<tr class="sprav_table_head">
+					<td height="30px" colspan="{$colspanTable}" align="center">
+						<input class="dost_all" type="button" name="" onclick="window.location='{$SERVER_ROOT}/sprav.php?act={$sprav}&step=add'" value="Добавить новую запись">
+					</td>
+			</tr>
+            {if ($errors)}
+                <tr>
+                    <td colspan="{$colspanTable}">
+                        {include file="general_errors.html"}
+                    </td>
+                </tr>
+            {/if}
+            {if ($sprav=='tipsc' || $sprav=='ktp')}
+				<tr class="sprav_table_head">
+					<td height="30px" colspan="11" align="center">
+						<form method="get" action="sprav.php">
+							<input type="button" value="Импортировать список" onclick="if (confirm('Импортировать новые данные?')) window.location='{$SERVER_ROOT}/sprav.php?act={$sprav}&step=import_{$sprav}'">
+							<input type="checkbox" value="1" name="dataready">Данные подготовлены
+						</form>
+					</td>
+				</tr>
+            {/if}
+			<tr class="sprav_table_head">
+				<td colspan="{$colspanTable}">
+					{if ($isPagination)}
+						<div style="text-align:right;">На странице:
+							<select class="pagination_select" name="on_page" onchange="document.getElementById('{$spravTable}').submit();">
+								<option {if $on_page == '10'}selected{/if} value="10">10</option>
+								<option {if $on_page == '30'}selected{/if} value="30">30</option>
+								<option {if $on_page == '50'}selected{/if} value="50">50</option>
+								<option {if $on_page == '100'}selected{/if} value="100">100</option>
+								<option {if $on_page == 'all'}selected{/if} value="all">Все на одной странице</option>
+							</select>
+						</div>
+					{/if}
+				</td>
+			</tr>
+			<tr class="headings">
+				<td class="sprav_table_head" width="{$spravWidth[1]}%">
+					<a href="{$SERVER_ROOT}/sprav.php?act={$sprav}
+						{if ($on_page)}&on_page={$on_page}{/if}
+						&order_by={$order_by}
+						{if ($order=='asc')}&order=desc{/if}" style="border: 0;">
+						{$spravField[1]}
+						{if ($order=='desc')}
+						<img src="{$SERVER_ROOT}/images/desc.gif" border="0" height="" width="">{/if}
+						{if ($order=='asc')}
+						<img src="{$SERVER_ROOT}/images/asc.gif" border="0" height="" width="">{/if}
+					</a>
+				</td>
+				{if ($spravField[2])} <td class="sprav_table_head" width="{$spravWidth[2]}%">{$spravField[2]}</td> {/if}
+				{if ($spravField[3])} <td class="sprav_table_head" width="{$spravWidth[3]}%">{$spravField[3]}</td> {/if}
+				{if ($spravField[4])} <td class="sprav_table_head" width="{$spravWidth[4]}%">{$spravField[4]}</td> {/if}
+				{if ($spravField[5])} <td class="sprav_table_head" width="{$spravWidth[5]}%">{$spravField[5]}</td> {/if}
+				{if ($spravField[6])} <td class="sprav_table_head" width="{$spravWidth[6]}%">{$spravField[6]}</td> {/if}
+				{if ($spravField[7])} <td class="sprav_table_head" width="{$spravWidth[7]}%">{$spravField[7]}</td> {/if}
+				{if ($spravField[8])} <td class="sprav_table_head" width="{$spravWidth[8]}%">{$spravField[8]}</td> {/if}
+				{if ($spravField[9])} <td class="sprav_table_head" width="{$spravWidth[9]}%">{$spravField[9]}</td> {/if}
+				<td class="sprav_table_head" width="10%">Редактировать</td>
+				<td class="sprav_table_head" width="10%">Удалить</td>
+			</tr>
+
+			{if ($count_object)}
+			  {foreach from=$object item=item}
+				<tr class="all_main">
+
+					<td align="{$spravAlign[1]}">{$item[1]}</td>
+
+					{if ($spravField[2])}
+						<td align="{$spravAlign[2]}">
+							{if ($spravType[2]=='checkbox')}
+    							{if ($item[2]==1)} <img src="{$SERVER_ROOT}/images/label_on.gif" width="15" height="15" border="0">
+	 		                   	{else} &nbsp; {/if}
+	                    	{else} {$item[2]} {/if}
+						</td>
+					{/if}
+
+					{if ($spravField[3])}
+						<td align="{$spravAlign[3]}">
+							{if ($spravType[3]=='checkbox')}
+    							{if ($item[3]==1)} <img src="{$SERVER_ROOT}/images/label_on.gif" width="15" height="15" border="0">
+	 		                   	{else} &nbsp; {/if}
+	                    	{else} {$item[3]} {/if}
+						</td>
+					{/if}
+
+					{if ($spravField[4])}
+						<td align="{$spravAlign[4]}">
+							{if ($spravType[4]=='checkbox')}
+    							{if ($item[4]==1)} <img src="{$SERVER_ROOT}/images/label_on.gif" width="15" height="15" border="0">
+	 		                   	{else} &nbsp; {/if}
+	                    	{else} {$item[4]} {/if}
+						</td>
+					{/if}
+
+					{if ($spravField[5])}
+						<td align="{$spravAlign[5]}">
+							{if ($spravType[5]=='checkbox')}
+    							{if ($item[5]==1)} <img src="{$SERVER_ROOT}/images/label_on.gif" width="15" height="15" border="0">
+	 		                   	{else} &nbsp; {/if}
+	                    	{else} {$item[5]} {/if}
+						</td>
+					{/if}
+
+					{if ($spravField[6])}
+						<td align="{$spravAlign[6]}">
+							{if ($spravType[6]=='checkbox')}
+    							{if ($item[6]==1)} <img src="{$SERVER_ROOT}/images/label_on.gif" width="15" height="15" border="0">
+	 		                   	{else} &nbsp; {/if}
+	                    	{else} {$item[6]} {/if}
+						</td>
+					{/if}
+
+					{if ($spravField[7])}
+						<td align="{$spravAlign[7]}">
+							{if ($spravType[7]=='checkbox')}
+    							{if ($item[7]==1)} <img src="{$SERVER_ROOT}/images/label_on.gif" width="15" height="15" border="0">
+	 		                   	{else} &nbsp; {/if}
+	                    	{else} {$item[7]} {/if}
+						</td>
+					{/if}
+
+					{if ($spravField[8])}
+						<td align="{$spravAlign[8]}">
+							{if ($spravType[8]=='checkbox')}
+    							{if ($item[8]==1)} <img src="{$SERVER_ROOT}/images/label_on.gif" width="15" height="15" border="0">
+	 		                   	{else} &nbsp; {/if}
+	                    	{else} {$item[8]} {/if}
+						</td>
+					{/if}
+
+					{if ($spravField[9])}
+						<td align="{$spravAlign[9]}">
+							{if ($spravType[9]=='checkbox')}
+    							{if ($item[9]==1)} <img src="{$SERVER_ROOT}/images/label_on.gif" width="15" height="15" border="0">
+	 		                   	{else} &nbsp; {/if}
+	                    	{else} {$item[9]} {/if}
+						</td>
+					{/if}
+
+					<td align="center">
+						<a class="dost_all" title="Редактировать запись"
+					 		href="{$SERVER_ROOT}/sprav.php?act={$sprav}&step=edit&id={$item[0]}">
+					 		<img src="{$SERVER_ROOT}/images/edit.gif" width="16" hspace="2" height="16" border="0">
+					 	</a>
+					</td>
+
+					<td align="center">
+						<a class="dost_all" title="Удалить запись"
+							onclick="javascript:if (confirm('Вы действительно желаете удалить запись из справочника\n{$sprav_name} ?')) document.location ='{$SERVER_ROOT}/sprav.php?act={$sprav}&step=delete&id={$item[0]}'" href="#">
+							<img src="{$SERVER_ROOT}/images/del.gif" width="16" hspace="2" height="16" border="0">
+						</a>
+					</td>
+				</tr>
+			  {/foreach}
+				<tr align="left">
+					<td colspan="{$colspanTable}" class="sprav_table_foot">
+						{if ($count_pager >1)} Страницы:
+							{foreach from=$pager key=Key item=Item}
+								{if ($Item == 0)}
+									<a href="{$SERVER_ROOT}/sprav.php?act={$sprav}&on_page={$on_page}&page={$Key+1}{if ($filter)}&filter={$filter}{/if}">&nbsp;{$Key+1}&nbsp;</a>
+								{else}
+									&nbsp;{$Key+1}&nbsp;
+								{/if}
+							{/foreach}
+						{else}
+							&nbsp;
+						{/if}
+					</td>
+				</tr>
+			{else}
+				<tr>
+					<td colspan="{$colspanTable}" align="center" class="nothing_found">Ничего не найдено</td>
+				</tr>
+			{/if}
+		</table>
+	</div>
+</form>

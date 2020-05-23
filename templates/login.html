@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{$title}</title>
+	<meta http-equiv="Content-Style-Type" content="text/css">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Language" content="RU">
+	<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, post-check=0, pre-check=0">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta name="rating" content="General">
+	<meta name="expires" content="never">
+	<meta name="distribution" content="Global">
+	<meta name="robots" content="ALL">
+	<meta name="revisit-after" content="2 Days">
+	<link rel="shortcut icon" href="{$SERVER_ROOT}/favicon.ico">
+    <link href="{$SERVER_ROOT}/style/style.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="{$SERVER_ROOT}/scripts/tab_helper.js"></script>
+</head>
+
+<body>
+<br><br>
+<table width='100%' height='80%' border='0' cellpadding='0' cellspacing='0'>
+	<tr>
+		<td align='center' valign='middle'>
+			<h1>Бытовые потребители</h1>
+			<br>
+			<table width='50%' border='0'  cellpadding='0' cellspacing='0' align='center'  valign='middle' class='login_tab'>
+				<tr height='1'>
+					<td colspan='4' align='center' class='login_td'>Авторизация
+					</td>
+				</tr>
+
+				<tr>
+					<td colspan='4'  align='center'>
+					<!--
+					<br><br><br><br>
+						<img src="'.SERVER_ROOT.'images/logo_e.gif">
+					-->
+					</td>
+				</tr>
+
+				<tr>
+					<td width='1' bgcolor='#FFFFFF'> </td>
+					<td align='center'  valign='top'>
+						<br><br>
+						<form method='post' action='{$SERVER_ROOT}/auth.php?act=login' enctype='multipart/form-data' name='form1'>
+						<table  valign='middle'>
+							<tr>
+								<td>
+									Ф Э С:
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<select name='fess' id='fess' class='login' onchange='getResforFes();'>
+											{foreach from=$fess item=subitem}
+												<option value='{$subitem.fes}' {if ($subitem.fes == $lastfes)} selected='selected' {/if}>{$subitem.fes}</option>
+											{/foreach}
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Р Э С:
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div id='ress_select_form'>
+										<select name='ress' id='ress' class='login' onchange='getUsersforRes();'>
+											{foreach from=$ress item=subitem}
+												<option value='{$subitem.type_res}' {if ($subitem.type_res == $lastres)} selected='selected' {/if}>{$subitem.knaim}</option>
+											{/foreach}
+										</select>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Ф.И.О.:
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div id='users_select_form'>
+										<select name='userid' class='login'>
+											{foreach from=$users item=subitem}
+												<option value='{$subitem.tbn}' {if ($subitem.tbn == $lastuser)} selected='selected' {/if}>{$subitem.fio}</option>
+											{/foreach}
+										</select>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Пароль:
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input name='pass' class='login' type='password' value=''>
+								</td>
+							</tr>
+							<tr>
+								<td align="center">
+									<input type='submit' class='login' name='submit' value=' Вход '>
+									<input type='hidden' name='act' value='login'>
+									<br><br>
+                                    <b> <br></b>  <br>
+                                    <br>
+                                    <br><br>
+									<a href="http://www.bes.brest.energo.net">перейти на сайт Брестских электросетей >></a>
+								</td>
+							</tr>
+						</table>
+						</form>
+					</td>
+					<td width='1' bgcolor='#FFFFFF'> </td>
+				</tr>
+				<tr>
+					<td colspan='4' align='center' class='login_td'> (c) 2009-2020 Энерготелеком, Брестские электрические сети
+					</td>
+				</tr>
+			</table>
+		<td>
+	</tr>
+</table>
+
+</body>
+</html>

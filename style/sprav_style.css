@@ -1,0 +1,231 @@
+tr.sprav_table_head {
+    color:				#111111;
+	background-color:	#EEE;
+    padding-left:       1px;
+}
+td.sprav_table_foot {
+    color:				#111111;
+	background-color:	#EEE;
+    padding-left:       1px;
+    font-weight: 		bold;
+}
+td.sprav_table_head {
+ 	height: 35px;
+ 	vertical-align: middle;
+ 	text-align: center;
+	word-wrap:normal;
+}
+
+.nothing_found{
+	color:		#f33;
+	height: 40px;
+ 	vertical-align: middle;
+ 	text-align: center;
+	background-color:	#DBE5F1;
+	font-weight: bold;
+}
+div#errorsDisplay { }
+div#errorsDisplay ul { margin-right: 30px; margin-top: 15px; margin-left: 15px; margin-bottom:15px; }
+div#errorsDisplay ul li { font-weight: bold; color: #ff0000; font-size:14px;  }
+div#errorsDisplay ul li span.green { color: #339966; }
+div#errorsDisplay ul li span.green p { color: #339966; }
+
+.tinstall{
+	width: 280px;
+	float: left;
+	margin: 0px 10px 0px 10px;
+}
+.servicemess{
+	margin: 5px 15px 5px 5px;
+	font-weight: bold;
+	color:#f33;
+}
+.fhead{
+	width: 95%;
+	float: none;
+	font-weight:bold;
+	color:#333;
+	text-align:center;
+	vertical-align:middle;
+	margin: 15px 5px 15px 5px;
+}
+.finput {
+	font-weight:normal;
+	color:#111;
+	text-align:left;
+	margin: 15px 5px 15px 5px;
+	vertical-align:text-bottom;
+}
+.finput input{
+	color:#111;
+	border:solid 1px #999;
+	margin: 0px 1px 0px 1px;
+}
+.scroll_spisok{
+	width:100%;
+	height:500px;
+	overflow:scroll;
+}
+.button_otchet_1{
+	width:110px;
+	font-size:8pt;
+	margin:3px;
+}
+.spisok_select{
+	width:250px;
+	height:500px;
+	font-size:10pt;
+}
+.button_otchet_2{
+	width:150px;
+	margin:10px;
+}
+/********************************************************************************/
+/*                                  Стили для КВИТАНЦИИ                         */
+/********************************************************************************/
+.head_menu {
+	background: #9f9f9f;
+	color: #FFFFFF;
+	height:50px;
+	text-align:center;
+}
+.head_menu_butt1{
+	width:	150px;
+	font-size: 13pt;
+}
+.head_menu_butt2{
+	width:	200px;
+	font-size: 13pt;
+}
+.kvit_data_head_1{
+	font-size: 15pt;
+	color:#333;
+	text-align:center;
+	font-family:Arial;
+}
+.kvit_data_table_title{
+	font-size: 13pt;
+	color:#555;
+	text-align:right;
+	font-family:Arial;
+	font-weight:bold;
+}
+.kvit_data_table_data{
+	font-size: 14pt;
+	color:#0000ff;
+	text-align:left;
+	font-family:Arial;
+	font-weight:normal;
+	float:left;
+}
+.kvit_data_table_detail{
+	font-size: 14pt;
+	color:#666;
+	text-align:left;
+	font-family:Arial;
+	font-weight:normal;
+	float:left;
+}
+.kvit_data_table_plat_name{
+	font-size: 14pt;
+	color:#333;
+	text-align:center;
+	font-family:Arial;
+	font-weight:bold;
+}
+.kvit_form_input{
+	font-size: 13pt;
+	color:#444;
+	font-family:Arial;
+	font-weight:normal;
+	border: 1px solid #333;
+}
+.kvit_form_input checkbox{
+	border: none;
+}
+.div_general_mess{
+	width: 100%;
+	font-weight: bold;
+	color: #CC3333;
+	font-size: 11pt;
+	text-align: center;
+}
+.kvit_data_table_simple_text{
+	font-size: 11pt;
+	color:#333;
+	font-family:Arial;
+	font-weight:normal;
+	float: left;
+}
+/***********************************************************************************/
+/****                                  Стили менюшки                            ****/
+/***********************************************************************************/
+/* drop menu may cut */
+#dropmenudiv{
+	position:absolute;
+	border:1px solid #e4e4e4;
+	border-bottom-width: 0;
+	font:normal 10px Verdana;
+	line-height:18px;
+	z-index:100;
+	font-size: 13pt;
+
+}
+
+#dropmenudiv a {
+	width: 100%;
+	display: block;
+	text-indent: 3px;
+	border-bottom: 1px solid #999;
+	border-top: 1px solid #999;
+	text-decoration: none;
+	font-weight: norval;
+	font-size: 13pt;
+	padding: 7px 0px 7px 0px;
+
+}
+
+#dropmenudiv a:hover{
+	background-color: #e4e4e4;
+}
+
+a.drop_menu {
+	color: #800000;
+}
+.sub-nav a {
+	font-weight: normal;
+	color: #800000;
+	text-decoration:none;
+	font-size: 14pt;
+}
+.sub-nav a:hover {
+	text-decoration: none;
+}
+.sub-nav {
+	background: #9f9f9f;
+}
+/***********************************************************************************/
+/****                                 NEXT                            ****/
+/***********************************************************************************/
+.error_div {
+	margin: 0px 5px 0px 5px;
+	font-weight: bold;
+	color: #CC3333;
+	font-size:11pt;
+}
+.filters{
+	height:150px;
+	vertical-align:top;
+	float:left;
+	width:auto;
+	padding :2px 4px;
+
+}
+.filters select{
+    width: 100%;
+}
+.filter_head{
+	background: #408080;
+	padding-left:5px;
+    color: #FFF;
+}

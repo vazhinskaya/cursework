@@ -1,0 +1,116 @@
+﻿<!-- СПРАВОЧНИКИ: СПИСОК СПРАВОЧНИКОВ   -->
+			<table width="100%" cellspacing="1" cellpadding="0" border="0" >
+				<tr>
+					<td colspan="2">
+						<h1 id="unline">Список справочников</h1>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						{if ($errors)}
+							{include file="general_errors.html"}
+						{/if}
+					</td>
+				</tr>
+			</table>
+			<div class="grid np">
+				<table width="100%" cellspacing="1" cellpadding="0" border="0" >
+					<tr class="headings">
+						<th colspan="2">Справочники общего назначения</th>
+					</tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=diapozon';">
+                        <td align="center" >Диапазон номеров для абонентов по РЭСам</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=diapazon';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=tip_res';">
+                        <td align="center" >Типы РЭС-ов</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=tip_res';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=tip_np';">
+                        <td align="center" >Типы населенных пунктов</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=tip_np';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=tip_street';">
+                        <td align="center" >Типы улиц</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=tip_street';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=tip_postr';">
+                        <td align="center" >Типы построек</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=tip_postr';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=tipsc';">
+                        <td align="center" >Типы счетчиков</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=tipsc';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=vidlg';">
+                        <td align="center" >Виды льгот</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=vidlg';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=vidtar';">
+                        <td align="center" >Тарифы</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=vidtar';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=nomr';">
+                        <td align="center" >Буквенные обозначения: Общее</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=nomr';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=nomr_otkl';">
+                        <td align="center" >Буквенные обозначения: Отключения</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=nomr_otkl';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=plpr';">
+                        <td align="center" >Приемщики платежей</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=plpr';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=kalkul';">
+                        <td align="center" >Справочник калькуляций</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=kalkul';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=kalkul2';">
+                        <td align="center" >Калькуляция 2. Цены на бензин.</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=kalkul2';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/spravsprav.php';">
+                        <td align="center" >Справочник справочников</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/spravsprav.php';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr class="headings">
+                        <th colspan="2">Справочники адресов</th>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=np';">
+                        <td align="center" >Населенные пункты</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=np';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=region';">
+                        <td align="center" >Регионы</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=region';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=street';">
+                        <td align="center" >Улицы</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=street';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=dom';">
+                        <td align="center" >Дома</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=dom';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr class="headings">
+                        <th colspan="2">Справочники</th>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=tip_prinodl';">
+						<td align="center" >Типы принадлежности</td>
+						<td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=tip_prinodl';" name="" value="Просмотр"></td>
+					</tr>
+					<tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=config';">
+						<td align="center" >Настройка РЭС</td>
+						<td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=config';" name="" value="Просмотр"></td>
+					</tr>
+					<tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=ktp';">
+                        <td align="center" >КТП</td>
+                        <td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=ktp';" name="" value="Просмотр"></td>
+                    </tr>
+                    <tr ondblclick="window.location='{$SERVER_ROOT}/sprav.php?act=personal';">
+						<td align="center" >Сотрудники</td>
+						<td align="center" ><input type="button" onclick="window.location='{$SERVER_ROOT}/sprav.php?act=personal';" name="" value="Просмотр"></td>
+					</tr>
+				</table>
+			<div>
